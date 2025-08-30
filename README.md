@@ -67,3 +67,76 @@ export default tseslint.config([
   },
 ])
 ```
+
+
+# 💊 e-pharmacy-admin-dashboard
+
+Admin dashboard for managing e-pharmacy orders, products, and users.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+
+git clone https://github.com/yourusername/e-pharmacy-admin-dashboard.git
+cd e-pharmacy-admin-dashboard
+2. Install dependencies
+
+npm install
+3. Run the development server
+
+npm run dev
+The app will be running at http://localhost:5173
+
+🧰 Tech Stack
+React with TypeScript
+
+Vite
+
+Tailwind CSS (planned)
+
+ESLint & Prettier
+
+Optionally connected to API/backend (e.g. Node.js / Express / Firebase (planned))
+
+💡 Features
+📦 Product management (add/edit/delete)
+
+📋 Orders overview & status updates
+
+👤 User management
+
+📊 Dashboard with statistics and reports
+
+🔐 Authentication 
+
+📱 Responsive layout
+
+📸 Screenshots
+Add screenshots here .
+
+
+
+e-pharmacy-admin-dashboard/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── layouts/
+│   ├── hooks/
+│   ├── utils/
+│   └── main.tsx
+├── .eslintrc.cjs
+├── .prettierrc
+├── tailwind.config.ts
+├── vite.config.ts
+└── README.md
+🧾 License
+This project is licensed under the MIT License.
+
+🤝 Contributing
+Pull requests are welcome!
+For major changes, please open an issue first to discuss what you would like to change.
