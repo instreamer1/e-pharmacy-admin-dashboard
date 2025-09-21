@@ -3,14 +3,18 @@ import  api  from "./api";
 
 export const authService = {
 //   register: (data: { name: string; email: string; password: string }) =>
-//     api.post("/auth/register", data),
+//     api.post("/user/register", data),
 
   login: (data: { email: string; password: string }) =>
-    api.post("/auth/login", data),
+    api.post("/user/signin", data),
 
-  logout: () => api.post("/auth/logout"),
+  logout: () => api.post("/user/logout"),
 
-  refreshToken: () => api.post("/auth/refresh"),
+  refreshToken: () => api.post("/user/refresh"),
 
-  getUserInfo: () => api.get("/auth/me"),
+  // getCurrentUser: () => api.get("/user/user-info"),
+   getCurrentUser: (token?: string) => {
+  return api.get('/user/user-info', {
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined
+  })},
 };

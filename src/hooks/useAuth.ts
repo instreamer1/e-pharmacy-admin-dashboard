@@ -1,9 +1,12 @@
+import { useSelector } from 'react-redux';
+import { selectUser, selectIsLoggedIn } from '../store/authSlice/selectors';
+
 export const useAuth = () => {
-  // пример: токен хранится в localStorage, user в context
-//   const { user } = useContext(AuthContext);
+  const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return {
-    // isAuthenticated: !!user,
-    // user, // { id, email, role: 'admin' }
+    user,
+    isAuthenticated: isLoggedIn,
   };
 };

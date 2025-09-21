@@ -5,11 +5,12 @@ import MainContent from '../../components/MainContent/MainContent'
 import Logo from '../../components/Logo/Logo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-// import { logInUser } from '../../redux/authSlice/operations';
 import { FiEye, FiEyeOff } from 'react-icons/fi'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../../store/hooks'
 import toast from 'react-hot-toast'
 import { loginSchema } from '../../schemas/loginSchema'
+import { fetchCurrentUser, logInUser } from '../../store/authSlice/operations'
+import { normalizeError } from '../../utils/normalizeError'
 // import LineContainer from '../../components/LineContainer/LineContainer';
 
 type LoginFormData = {
@@ -18,7 +19,7 @@ type LoginFormData = {
 }
 
 const LoginPage = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const {
@@ -35,12 +36,14 @@ const LoginPage = () => {
     const email = data.email.trim()
     const password = data.password.trim()
     try {
-      // await dispatch(logInUser({ email, password })).unwrap();
-      // toast.success('User registered successfully!');
+      await dispatch(logInUser({ email, password })).unwrap()
+      toast.success('User registered successfully!')
       reset()
+      await dispatch(fetchCurrentUser()).unwrap();
       navigate('/dashboard')
     } catch (error) {
-      toast.error(error)
+      const normalized = normalizeError(error)
+      toast.error(normalized.message) 
     }
   }
 
@@ -107,9 +110,7 @@ const LoginPage = () => {
           </div> */}
         </div>
       </div>
-      <div className={css.lineContainerWrapper}>
-        {/* <LineContainer /> */}
-      </div>
+      <div className={css.lineContainerWrapper}>{/* <LineContainer /> */}</div>
     </section>
   )
 }

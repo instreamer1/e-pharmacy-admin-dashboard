@@ -1,24 +1,13 @@
 //authSlice/slice.js
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { logInUser, logOutUser, refresh, fetchCurrentUser } from './operations'
+import type { NormalizedError } from '../../utils/normalizeError'
+import type { AuthState } from './types'
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { logInUser, logOutUser, refresh, getUser } from './operations'
-import type { NormalizedError } from '../../utils/errorHandler'
 
-interface User {
-  name: string
-  email: string
-}
 
-interface UserState {
-  user: User | null
-  accessToken: string | null
-  isLoggedIn: boolean
-  isRefreshing: boolean
-  isLoading: boolean
-  error: NormalizedError | null
-}
-
-const initialState: UserState = {
+const initialState: AuthState = {
   user: null,
   accessToken: null,
   isLoggedIn: false,
@@ -31,35 +20,29 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logOut(state) {
-      state.user = null
-      state.accessToken = null
-      state.isLoggedIn = false
+    clearError: (state) => {
       state.error = null
     },
   },
   extraReducers: (builder) => {
-    // ================= LOG IN =================
+    //  LOG IN
     builder
       .addCase(logInUser.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(
-        logInUser.fulfilled,
-        (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
-          state.user = action.payload.user
-          state.accessToken = action.payload.accessToken
-          state.isLoggedIn = true
-          state.isLoading = false
-        },
-      )
-      .addCase(logInUser.rejected, (state, action: PayloadAction<NormalizedError | undefined>) => {
-        state.error = action.payload || { message: 'Unknown error', code: 'UNEXPECTED' }
+      .addCase(logInUser.fulfilled, (state, action) => {
+        state.user = action.payload.user
+        state.accessToken = action.payload.accessToken
+        state.isLoggedIn = true
         state.isLoading = false
+        state.error = null
       })
-
-      // ================= LOG OUT =================
+      .addCase(logInUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload || { message: 'Unknown error', code: 'UNKNOWN' }
+      })
+      // LOG OUT
 
       .addCase(logOutUser.pending, (state) => {
         state.isLoading = true
@@ -73,54 +56,54 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logOutUser.rejected, (state, action: PayloadAction<NormalizedError | undefined>) => {
-        state.error = action.payload || { message: 'Unknown error', code: 'UNEXPECTED' }
-        state.isLoading = false
         state.user = null
         state.accessToken = null
         state.isLoggedIn = false
+        state.isLoading = false
+        state.error = action.payload || { message: 'Logout failed', code: 'LOGOUT_FAILED' }
       })
 
-      // ================= REFRESH TOKEN =================
+      // REFRESH TOKEN
 
       .addCase(refresh.pending, (state) => {
         state.isRefreshing = true
         state.error = null
       })
-      .addCase(
-        refresh.fulfilled,
-        (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
-          state.isRefreshing = false
-          state.user = action.payload.user
-          state.accessToken = action.payload.accessToken
-          state.isLoggedIn = true
-        },
-      )
-      .addCase(refresh.rejected, (state) => {
+      .addCase(refresh.fulfilled, (state, action) => {
+        state.isRefreshing = false
+        state.accessToken = action.payload.accessToken
+        state.isLoggedIn = true
+        state.error = null
+      })
+      .addCase(refresh.rejected, (state, action) => {
         state.isRefreshing = false
         state.user = null
         state.accessToken = null
         state.isLoggedIn = false
+        state.error = action.payload || { message: 'Refresh failed', code: 'REFRESH_FAILED' }
       })
 
-      // ================= GET USER =================
+      // GET USER
 
-      .addCase(getUser.pending, (state) => {
+      .addCase(fetchCurrentUser.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload
         state.isLoading = false
+        state.isLoggedIn = true
+        state.error = null
       })
-      .addCase(getUser.rejected, (state, action: PayloadAction<NormalizedError | undefined>) => {
-        state.error = action.payload || { message: 'Unknown error', code: 'UNEXPECTED' }
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.accessToken = null
         state.isLoggedIn = false
+        state.error = action.payload || { message: 'Fetch user failed', code: 'FETCH_USER_FAILED' }
       })
   },
 })
 
-export const { logOut } = authSlice.actions
+export const { clearError } = authSlice.actions
 export const authReducer = authSlice.reducer

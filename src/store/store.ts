@@ -11,7 +11,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import { rootReducer } from "./rootReducer";
-import { authMiddleware } from "./authSlice/middleware"; // если у тебя есть
+import { authMiddleware } from "./middleware/authMiddleware"; 
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -20,12 +20,14 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
+      thunk: {
+        extraArgument: { persistor: null }},
     }).concat(authMiddleware),
 });
 
 export const persistor = persistStore(store);
 
-// типы
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

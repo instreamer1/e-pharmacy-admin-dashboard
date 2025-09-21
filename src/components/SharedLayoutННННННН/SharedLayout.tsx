@@ -1,27 +1,28 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "../Sidebar/Sidebar";
-import Header from "../Header/Header";
+// import { Outlet } from "react-router-dom";
+// import Sidebar from "../Sidebar/Sidebar";
+// import Header from "../Header/Header";
 
-const SharedLayout = () => {
-  return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <Sidebar />
+// const SharedLayout = () => {
+//   return (
+//     <div className="flex h-screen bg-gray-50">
+//        {/* Header */}
+//         <Header />
 
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <Header />
+//       <div className="flex-1 flex flex-col">
+       
+//         {/* Sidebar */}
+//       <Sidebar />
 
-        {/* Контент */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
-};
+//         {/* Контент */}
+//         <main className="flex-1 p-6 overflow-y-auto">
+//           <Outlet />
+//         </main>
+//       </div>
+//     </div>
+//   );
+// };
 
-export default SharedLayout;
+// export default SharedLayout;
 
 // Компонент рендерится на маршрут "/". Включает в себя Header и Sidebar и оборачивает вложенные маршруты с их соответствующими страницами.
 // Компонент Header состоит из: 
