@@ -10,10 +10,10 @@ import { refresh } from './store/authSlice/operations'
 import { useAppDispatch } from './store/hooks'
 
 const App = () => {
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(refresh())
-  }, [])
+  // const dispatch = useAppDispatch()
+  // useEffect(() => {
+  //   dispatch(refresh())
+  // }, [])
 
   return (
     <>

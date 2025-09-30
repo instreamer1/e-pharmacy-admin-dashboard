@@ -1,65 +1,31 @@
 // components/Sidebar/Sidebar.tsx
-import { NavLink } from "react-router-dom";
+import css from "./Sidebar.module.css"
+import SidebarMenu from '../SidebarMenu/SidebarMenu'
+import iconSprite from '../../assets/icons/sprite.svg'
+import LogOutBtn from "../LogOutBtn/LogOutBtn"
+const Sidebar = ({ isOpen, onClose, isDesktop }) => {
+  if (!isOpen) return null
 
-const Sidebar = () => {
   return (
-    <aside className="w-64 bg-white shadow-lg h-full p-6">
-      <nav className="flex flex-col gap-4">
-        <NavLink
-          to="/dashboard"
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-lg ${
-              isActive ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-100"
-            }`
-          }
+    <aside className=" absolute left-0 top-0 w-78 bg-white rounded-lg shadow-sm border p-4 md:p-6">
+      <div className=" inset-0 bg-black bg-opacity-50" onClick={onClose} />
+      <div className="flex justify-between items-center p-4 border-b">
+      
+        <button
+          onClick={onClose}
+          className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+          aria-label="Закрыть меню"
         >
-          Dashboard
-        </NavLink>
-                <NavLink
-          to="/allProducts"
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-lg ${
-              isActive ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-100"
-            }`
-          }
-        >
-          Products
-        </NavLink>
-                <NavLink
-          to="/suppliers"
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-lg ${
-              isActive ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-100"
-            }`
-          }
-        >
-          Suppliers
-        </NavLink>
-                <NavLink
-          to="/customers"
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-lg ${
-              isActive ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-100"
-            }`
-          }
-        >
-          Customers
-        </NavLink>
-                <NavLink
-          to="/settings"
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-lg ${
-              isActive ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-100"
-            }`
-          }
-        >
-          Settings
-        </NavLink>
+           <svg className={css.burger}>
+          <use href={`${iconSprite}#closeModal`}></use>
+        </svg>
+        </button>
+      </div>
 
-        {/* при необходимости добавишь сюда другие пункты */}
-      </nav>
+      <SidebarMenu />
+    { !isDesktop && <LogOutBtn />}
     </aside>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

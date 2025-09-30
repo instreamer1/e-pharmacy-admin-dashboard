@@ -1,81 +1,178 @@
+/* index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Reset с улучшениями */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  overflow: auto;
+  height: 100%; /* Добавляем высоту для правильного растяжения */
 }
 
 body {
   font-family: var(--font-family);
+  background-color: var(--background-color);
+  line-height: 1.5; /* Улучшает читаемость */
+  -webkit-font-smoothing: antialiased; /* Улучшает рендеринг шрифтов */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 :root {
-  /* CSS-переменные */
-  --font-family: Inter, system-ui, sans-serif;
-  --background-color: D4D4D4;
- 
+  /* CSS-переменные с улучшенной палитрой */
+  --font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --background: #f7f8fa;
+  --background-2: #f7f8fa;
+  --background-3: #ffffff;
+  --main-black: #1d1e21;
+  --accent: #59b17a;
+  --accent-2: #e85050;
+  --text: #dcdddf;
+
   /* Непосредственные стили */
   font-family: var(--font-family);
-  background-color: var(--background-color);
+  background-color: var(--background);
   font-weight: 400;
+  color: var(--main-black);
 }
 
 #root {
   min-width: 320px;
-  max-width: 375px;
+  min-height: 100vh; /* Занимает всю высоту viewport */
   margin: 0 auto;
-  /* background: #f9f9f9; */
-  background: #f7f8fa;
+  background: var(--background);
+
+  /* Mobile First: резиновая верстка до 375px */
+  width: 100%;
+
+  /* Тени и визуальное улучшение */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05); /* Тонкая граница */
+
+  /* Для лучшего скролла на мобильных */
+  overflow-x: hidden;
 }
 
-
+/* Адаптивные контейнеры с плавными переходами */
+@media screen and (min-width: 375px) {
+  #root {
+    /* Small mobile: адаптивная с 375px */
+    max-width: 375px;
+    border-radius: 0; /* На mobile без скруглений */
+  }
+}
 
 @media screen and (min-width: 768px) {
   #root {
     max-width: 768px;
- 
+    border-radius: 8px; /* Скругления на tablet+ */
+    margin: 1rem auto; /* Отступы вокруг контейнера */
+    min-height: calc(100vh - 2rem); /* Учитываем margin */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); /* Более заметная тень */
   }
 }
 
 @media screen and (min-width: 1440px) {
   #root {
     max-width: 1440px;
+    border-radius: 12px;
+    margin: 2rem auto;
+    min-height: calc(100vh - 4rem);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   }
 }
 
-
-
+/* Typography система */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-p {
+h6 {
   margin: 0;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--main-black);
 }
 
-p:last-child {
+h1 {
+  font-size: 1.25rem; /* 20px */
+}
+
+h2 {
+  font-size: 1rem; /* 16px */
+}
+
+h3 {
+  font-size: 0.875rem; /* 14px */
+}
+
+h4 {
+  font-size: 0.875rem; /* 14px */
+}
+
+h5 {
+  font-size: 0.875rem; /* 14px */
+}
+
+h6 {
+  font-size: 0.875rem; /* 14px */
+}
+
+p {
+  margin: 0 ;
+  color: var(--main-black);
+  line-height: 1.6;
+}
+
+/* p:last-child {
   margin-bottom: 0;
+} */
+
+/* Адаптивная типография для tablet+ */
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  h2 {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  h3 {
+    font-size: 0.875rem; /* 14px */
+  }
 }
 
+/* Lists */
 li,
-ul {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
-  list-style-type: none;
 }
 
+/* Links */
 a {
   text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease-in-out;
 }
 
+a:hover,
+a:focus {
+  color: #2563eb; /* Синий цвет при hover */
+}
+
+/* Buttons */
 button {
   border: none;
   background: none;
@@ -83,9 +180,76 @@ button {
   padding: 0;
   margin: 0;
   font: inherit;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
 }
 
+/* Focus styles для доступности */
+button:focus-visible,
+a:focus-visible {
+  /* outline: 2px solid #3b82f6;
+  outline-offset: 2px; */
+  background: #3f945f;
+}
+
+/* Images */
 img {
   display: block;
   height: auto;
+  max-width: 100%; /* Предотвращает переполнение */
+}
+
+/* Form elements */
+input,
+textarea,
+select {
+  font: inherit;
+  border: 1px solid rgba(29, 30, 33, 0.1);
+  border-radius: 6px;
+  background: var(--background-3);
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+}
+
+/* Utility классы для частых паттернов */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Scrollbar стилизация (опционально) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }

@@ -1,7 +1,8 @@
-import IncomeExpenses from '../../components/IncomeExpenses/IncomeExpenses';
-import RecentCustomers from '../../components/RecentCustomers/RecentCustomers';
-import Statistics from '../../components/Statistics/Statistics';
-import css from './DashboardPage.module.css';
+import IncomeExpenses from '../../components/IncomeExpenses/IncomeExpenses'
+import RecentCustomers from '../../components/RecentCustomers/RecentCustomers'
+import Statistics from '../../components/Statistics/Statistics'
+import TestTailwind from '../../components/TestTailwind'
+import css from './DashboardPage.module.css'
 
 const DashboardPage = () => {
   return (
@@ -14,13 +15,13 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Последние клиенты */}
         <RecentCustomers />
-
+        <TestTailwind />
         {/* Доходы/Расходы */}
         <IncomeExpenses />
       </div>
     </div>
-  );
-};
+  )
+}
 
 /* "DashboardPage – состоит из компонентов Statistics, Recent Customers, Income/Expenses.
 
@@ -34,4 +35,4 @@ const DashboardPage = () => {
 Верстка: Таблица со списком доходов и расходов, включая название, электронную почту (если это клиент) и сумму.
 
 */
-export default DashboardPage;
+export default DashboardPage

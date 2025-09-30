@@ -8,7 +8,7 @@ const Logo = () => {
   return (
     <Link className={css.mainLogo} to='/'>
       <img src={logoGreen} alt='E-Pharmacy Logo' className={css.logo} />
-      <span className={css.text}>E-Pharmacy</span>
+      
     </Link>
   );
 };

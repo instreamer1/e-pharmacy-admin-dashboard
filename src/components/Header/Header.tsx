@@ -1,47 +1,53 @@
 // components/Header/Header.tsx
-import { useNavigate, Link } from 'react-router-dom'
+
 import { useAuth } from '../../hooks/useAuth'
 import Logo from '../Logo/Logo'
+import css from './Header.module.css'
+import iconSprite from '../../assets/icons/sprite.svg'
+import { useLocation } from 'react-router-dom'
 
-import { useAppDispatch } from '../../store/hooks'
-import { logOutUser } from '../../store/authSlice/operations'
+import LogOutBtn from '../LogOutBtn/LogOutBtn'
+import { ROUTE_TITLES } from '../../constants/routeTitles'
+import type { MouseEventHandler } from 'react'
 
-const Header = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+interface HeaderProps {
+  onMenuClick: MouseEventHandler<HTMLButtonElement>
+  isDesktop: boolean
+}
+
+const Header: React.FC<HeaderProps> = ({ onMenuClick, isDesktop }) => {
+  const location = useLocation()
+
   const { isAuthenticated, user } = useAuth()
 
-  const handleLogout = async () => {
-    await dispatch(logOutUser());
-    navigate('/login', { replace: true })
-  }
 
   return (
-    <header className="flex justify-between items-center bg-white shadow px-6 py-4">
+    <>
+      {!isDesktop && (
+        <button
+          // className={css.menuButton}
+          className=" mr-5"
+          onClick={onMenuClick}
+          type="button"
+          aria-label="aside button"
+        >
+          <svg className={css.burger}>
+            <use href={`${iconSprite}#burger`}></use>
+          </svg>
+        </button>
+      )}
+
       <Logo />
-      {/* <Link to={user ? '/' : '/login'} className="font-bold text-blue-600 text-xl">
-        MedicineStore
-      </Link> */}
+      <div className="flex flex-col  items-center gap-1 ml-5">
+        <h1 className="">Medicine Store</h1>
+        <div className="flex flex-row items-center ">
+          <p className="text-gray-500">{ROUTE_TITLES[location.pathname]}</p>
+          <p className="text-gray-500">{user?.email || 'guest'}</p>
+        </div>
+      </div>
 
- 
-      <h1 className="text-lg font-semibold">Medicine Store</h1>
-
-    
-      <nav className="flex items-center gap-6">
-        <Link to="/dashboard" className="text-gray-600 hover:text-blue-600">
-          Dashboard
-        </Link>
-        <span className="text-gray-500">{user?.email || 'guest'}</span>
-      </nav>
-
-   
-      <button
-        onClick={handleLogout}
-        className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-      >
-        Logout
-      </button>
-    </header>
+      {isDesktop && <LogOutBtn />}
+    </>
   )
 }
 
