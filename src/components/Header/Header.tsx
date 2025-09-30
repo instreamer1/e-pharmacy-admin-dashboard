@@ -22,17 +22,17 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isDesktop }) => {
 
 
   return (
-    <>
+    <header className="flex items-center bg-background2 border-b border-borderGray  px-5 h-20 ">
+      {/* Бургер только на мобилке */}
       {!isDesktop && (
         <button
-          // className={css.menuButton}
-          className=" mr-5"
+          className="mr-5"
           onClick={onMenuClick}
           type="button"
           aria-label="aside button"
         >
           <svg className={css.burger}>
-            <use href={`${iconSprite}#burger`}></use>
+            <use href={`${iconSprite}#burger`} />
           </svg>
         </button>
       )}
@@ -41,13 +41,13 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isDesktop }) => {
       <div className="flex flex-col  items-center gap-1 ml-5">
         <h1 className="">Medicine Store</h1>
         <div className="flex flex-row items-center ">
-          <p className="text-gray-500">{ROUTE_TITLES[location.pathname]}</p>
+          <p className="text-gray-500">{ROUTE_TITLES[location.pathname] ?? 'Unknown page'}</p>
           <p className="text-gray-500">{user?.email || 'guest'}</p>
         </div>
       </div>
 
       {isDesktop && <LogOutBtn />}
-    </>
+    </header>
   )
 }
 

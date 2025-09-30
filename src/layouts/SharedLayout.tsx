@@ -17,16 +17,18 @@ const SharedLayout = () => {
 
   return (
     <>
-      <header className="relative flex  items-center bg-white shadow  px-5 h-20">
-        {/* <div className="flex min-h-screen bg-gray-100 text-gray-800"> */}
+      <div className="relative min-w-[320px] max-w-full mx-auto sm:max-w-[375px] md:max-w-[768px] lg:max-w-[1440px]">
         <Header onMenuClick={toggleSidebar} isDesktop={isDesktop} />
-        {/* </div> */}
-        {/* <div className="flex flex-col flex-1"> */}
+
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} isDesktop={isDesktop} />
-        {/* </div> */}
-      </header>
-      <main>
-        <div className="min-w-[320px] max-w-full mx-auto sm:max-w-[375px] md:max-w-[768px] lg:max-w-[1440px]">
+      </div>
+      <main
+        className={`
+          flex-1 transition-all p-4 
+          ${isDesktop ? 'ml-16' : ''} 
+        `}
+      >
+        <div className="min-w-[320px] max-w-full mx-auto sm:max-w-[375px] md:max-w-[768px] lg:max-w-[1440px] b-accent">
           <Outlet />
         </div>
       </main>

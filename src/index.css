@@ -20,7 +20,7 @@ body {
 
 body {
   font-family: var(--font-family);
-  background-color: var(--background-color);
+  background-color: var(--accent);
   line-height: 1.5; /* Улучшает читаемость */
   -webkit-font-smoothing: antialiased; /* Улучшает рендеринг шрифтов */
   -moz-osx-font-smoothing: grayscale;
@@ -32,6 +32,7 @@ body {
   --background: #f7f8fa;
   --background-2: #f7f8fa;
   --background-3: #ffffff;
+  --backdrop: rgba(29, 30, 33, 0.3);
   --main-black: #1d1e21;
   --accent: #59b17a;
   --accent-2: #e85050;
@@ -61,33 +62,33 @@ body {
 }
 
 /* Адаптивные контейнеры с плавными переходами */
-@media screen and (min-width: 375px) {
-  #root {
-    /* Small mobile: адаптивная с 375px */
-    max-width: 375px;
-    border-radius: 0; /* На mobile без скруглений */
-  }
+/* @media screen and (min-width: 375px) { */
+#root {
+  /* Small mobile: адаптивная с 375px */
+  max-width: 375px;
+  border-radius: 0; /* На mobile без скруглений */
 }
+/* } */
 
-@media screen and (min-width: 768px) {
-  #root {
-    max-width: 768px;
-    border-radius: 8px; /* Скругления на tablet+ */
-    margin: 1rem auto; /* Отступы вокруг контейнера */
-    min-height: calc(100vh - 2rem); /* Учитываем margin */
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); /* Более заметная тень */
-  }
+/* @media screen and (min-width: 768px) { */
+#root {
+  max-width: 768px;
+  border-radius: 8px; /* Скругления на tablet+ */
+  /* margin: 1rem auto; Отступы вокруг контейнера */
+  /* min-height: calc(100vh - 2rem); Учитываем margin */
+  /* box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); Более заметная тень */
 }
+/* } */
 
-@media screen and (min-width: 1440px) {
-  #root {
-    max-width: 1440px;
-    border-radius: 12px;
-    margin: 2rem auto;
-    min-height: calc(100vh - 4rem);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  }
+/* @media screen and (min-width: 1440px) { */
+#root {
+  max-width: 1440px;
+  border-radius: 12px;
+  /* margin: 2rem auto; */
+  /* min-height: calc(100vh - 4rem); */
+  /* box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); */
 }
+/* } */
 
 /* Typography система */
 h1,
@@ -127,7 +128,7 @@ h6 {
 }
 
 p {
-  margin: 0 ;
+  margin: 0;
   color: var(--main-black);
   line-height: 1.6;
 }
