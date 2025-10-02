@@ -6,46 +6,47 @@ import LogOutBtn from '../LogOutBtn/LogOutBtn'
 
 interface SidebarProps {
   isOpen: boolean
-  isDesktop: boolean
   onClose: () => void
 }
 
-const Sidebar = ({ isOpen, onClose, isDesktop }: SidebarProps) => {
- 
-  if (!isDesktop && !isOpen) return null
+const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+
 
   return (
     <>
-     
-      {!isDesktop && isOpen && (
-        <div className="fixed inset-0 bg-[var(--backdrop)] z-1" onClick={onClose} />
+      {isOpen && (
+        <div className="fixed inset-0 bg-[var(--backdrop)] z-40 lg:hidden" onClick={onClose}  aria-hidden="true"/>
       )}
       <aside
-        className={` bg-background2 z-10 
-          ${
-            isDesktop
-              ? 'absolute top-50  w-20 h-[calc(100vh-5rem)] border-r border-borderGray ' 
-              : 'absolute top-0   h-[calc(100vh-0rem)] w-20 '
-          }                 
+        className={`
+          bg-background2 border-r border-borderGray
+          fixed top-0 h-full w-20 transform transition-transform duration-300 z-50
+          ${isOpen ? 'translate-x-0' : '-translate-y-full'}
+          md:max-h-[1024px]
+          lg:static lg:translate-y-0 lg:block lg:min-h-[800px]
         `}
+
+        aria-label="Main navigation"
       >
-       
-        {!isDesktop && (
-          <div className="flex justify-end p-4 border-b">
-            <button
-              onClick={onClose}
-              className="p-2 rounded-md hover:bg-gray-100 transition-colors"
-              aria-label="Close menu"
+        <div className=" flex justify-end p-4 border-b lg:hidden">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+            aria-label="Close menu"
+          >
+            <svg
+              //  className={css.burger}
+              className="w-5 h-5 stroke-[#59b17a]"
             >
-              <svg className={css.burger}>
-                <use href={`${iconSprite}#closeModal`} />
-              </svg>
-            </button>
-          </div>
-        )}
+              <use href={`${iconSprite}#closeModal`} />
+            </svg>
+          </button>
+        </div>
 
         <SidebarMenu onClose={onClose} />
-        {!isDesktop && <LogOutBtn />}
+        <div className="lg:hidden">
+          <LogOutBtn />
+        </div>
       </aside>
     </>
   )

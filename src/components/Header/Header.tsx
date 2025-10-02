@@ -12,24 +12,24 @@ import type { MouseEventHandler } from 'react'
 
 interface HeaderProps {
   onMenuClick: MouseEventHandler<HTMLButtonElement>
-  isDesktop: boolean
+  isSidebarOpen: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({ onMenuClick, isDesktop }) => {
+const Header: React.FC<HeaderProps> = ({ onMenuClick, isSidebarOpen }) => {
   const location = useLocation()
 
   const { isAuthenticated, user } = useAuth()
 
-
   return (
     <header className="flex items-center bg-background2 border-b border-borderGray  px-5 h-20 ">
       {/* Бургер только на мобилке */}
-      {!isDesktop && (
+      {!isSidebarOpen && (
         <button
-          className="mr-5"
+          className="mr-5 lg:hidden"
           onClick={onMenuClick}
           type="button"
-          aria-label="aside button"
+          aria-controls="sidebar"
+          aria-expanded={isSidebarOpen}
         >
           <svg className={css.burger}>
             <use href={`${iconSprite}#burger`} />
@@ -46,7 +46,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isDesktop }) => {
         </div>
       </div>
 
-      {isDesktop && <LogOutBtn />}
+      <div className="sm:hidden md:hidden lg:block">
+        <LogOutBtn />
+      </div>
     </header>
   )
 }

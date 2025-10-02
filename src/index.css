@@ -16,11 +16,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%; /* Добавляем высоту для правильного растяжения */
+  
 }
 
 body {
   font-family: var(--font-family);
-  background-color: var(--accent);
+  background: var( --accent-2);
   line-height: 1.5; /* Улучшает читаемость */
   -webkit-font-smoothing: antialiased; /* Улучшает рендеринг шрифтов */
   -moz-osx-font-smoothing: grayscale;
@@ -43,52 +44,22 @@ body {
   background-color: var(--background);
   font-weight: 400;
   color: var(--main-black);
+
 }
 
 #root {
   min-width: 320px;
-  min-height: 100vh; /* Занимает всю высоту viewport */
+  min-height: 100vh; 
   margin: 0 auto;
-  background: var(--background);
-
-  /* Mobile First: резиновая верстка до 375px */
+  background: var( --accent-2);
   width: 100%;
-
-  /* Тени и визуальное улучшение */
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05); /* Тонкая граница */
-
-  /* Для лучшего скролла на мобильных */
   overflow-x: hidden;
 }
 
-/* Адаптивные контейнеры с плавными переходами */
-/* @media screen and (min-width: 375px) { */
-#root {
-  /* Small mobile: адаптивная с 375px */
-  max-width: 375px;
-  border-radius: 0; /* На mobile без скруглений */
-}
-/* } */
 
-/* @media screen and (min-width: 768px) { */
-#root {
-  max-width: 768px;
-  border-radius: 8px; /* Скругления на tablet+ */
-  /* margin: 1rem auto; Отступы вокруг контейнера */
-  /* min-height: calc(100vh - 2rem); Учитываем margin */
-  /* box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); Более заметная тень */
-}
-/* } */
 
-/* @media screen and (min-width: 1440px) { */
-#root {
-  max-width: 1440px;
-  border-radius: 12px;
-  /* margin: 2rem auto; */
-  /* min-height: calc(100vh - 4rem); */
-  /* box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); */
-}
-/* } */
+
+
 
 /* Typography система */
 h1,
@@ -133,24 +104,10 @@ p {
   line-height: 1.6;
 }
 
-/* p:last-child {
+p:last-child {
   margin-bottom: 0;
-} */
-
-/* Адаптивная типография для tablet+ */
-@media screen and (min-width: 768px) {
-  h1 {
-    font-size: 1.5rem; /* 24px */
-  }
-
-  h2 {
-    font-size: 1.125rem; /* 18px */
-  }
-
-  h3 {
-    font-size: 0.875rem; /* 14px */
-  }
 }
+
 
 /* Lists */
 li,
@@ -221,7 +178,7 @@ select:focus {
 }
 
 /* Utility классы для частых паттернов */
-.visually-hidden {
+.visuallyHidden {
   position: absolute;
   width: 1px;
   height: 1px;

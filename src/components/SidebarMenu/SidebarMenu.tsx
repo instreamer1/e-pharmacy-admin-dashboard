@@ -39,7 +39,7 @@ const SidebarMenu = ({ onClose}: SidebarMenuProps) => {
                   }`
                 }
               >
-                <span className="mr-3 text-base">{item.icon}</span>
+                <span onClick={onClose} className="mr-3 text-base">{item.icon}</span>
                 {/* <span>{item.label}</span> */}
               </NavLink>
             </li>
