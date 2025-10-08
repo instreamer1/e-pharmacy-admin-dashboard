@@ -1,25 +1,27 @@
 import IncomeExpenses from '../../components/IncomeExpenses/IncomeExpenses'
 import RecentCustomers from '../../components/RecentCustomers/RecentCustomers'
 import Statistics from '../../components/Statistics/Statistics'
-import TestTailwind from '../../components/TestTailwind'
 import css from './DashboardPage.module.css'
 
 const DashboardPage = () => {
   return (
-    <div className="p-6 space-y-8">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+    <section className="py-5">
+      <div className="px-5">
+        
+        <h1 className="visually-hidden">Dashboard</h1>
 
-      {/* Статистика */}
-      <Statistics />
+        {/* Статистика */}
+        <Statistics />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Последние клиенты */}
-        <RecentCustomers />
-        <TestTailwind />
-        {/* Доходы/Расходы */}
-        <IncomeExpenses />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Последние клиенты */}
+          <RecentCustomers />
+
+          {/* Доходы/Расходы */}
+          <IncomeExpenses />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

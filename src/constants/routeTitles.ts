@@ -1,3 +1,29 @@
+import iconSprite from '../assets/icons/sprite.svg'
+
+export enum IconId {
+  Dashboard = 'icon-dashboard',
+  Products = 'icon-shopping-cart',
+  Suppliers = 'icon-mingcute_flask-fill',
+  Customers = 'icon-mdi_local-pharmacy',
+  Settings = 'icon-mdi_users',
+}
+
+export const getIconPath = (id: IconId) => `${iconSprite}#${id}`
+
+export interface NavItem {
+  to: string
+  label: string
+  icon: IconId
+}
+
+export const navItems: NavItem[] = [
+  { to: '/dashboard', label: 'Dashboard', icon: IconId.Dashboard },
+  { to: '/allProducts', label: 'Products', icon: IconId.Products },
+  { to: '/suppliers', label: 'Suppliers', icon: IconId.Suppliers },
+  { to: '/customers', label: 'Customers', icon: IconId.Customers },
+  { to: '/settings', label: 'Settings', icon: IconId.Settings },
+]
+
 export const ROUTE_TITLES: Record<string, string> = {
   '/': 'Home',
   '/allProducts': 'All products',
@@ -5,11 +31,3 @@ export const ROUTE_TITLES: Record<string, string> = {
   '/orders': 'Orders',
   '/customers': 'Customers',
 }
-
-  const navItems = [
-    { to: "/dashboard", label: "Dashboard", icon: "📊" },
-    { to: "/allProducts", label: "Products", icon: "📦" },
-    { to: "/suppliers", label: "Suppliers", icon: "🏢" },
-    { to: "/customers", label: "Customers", icon: "👥" },
-    { to: "/settings", label: "Settings", icon: "⚙️" },
-  ];

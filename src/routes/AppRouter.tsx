@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 
-// import AdminPage from '@/pages/AdminPage';
 // import UnauthorizedPage from '@/pages/UnauthorizedPage';
 import LoginPage from '../pages/LoginPage/LoginPage'
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute'

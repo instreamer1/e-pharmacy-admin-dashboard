@@ -15,22 +15,20 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%; /* Добавляем высоту для правильного растяжения */
-  
+  /*height: 100%; /* Добавляем высоту для правильного растяжения */
 }
 
 body {
   font-family: var(--font-family);
-  background: var( --accent-2);
+  background: var(--background-3);
   line-height: 1.5; /* Улучшает читаемость */
   -webkit-font-smoothing: antialiased; /* Улучшает рендеринг шрифтов */
   -moz-osx-font-smoothing: grayscale;
 }
 
 :root {
-  /* CSS-переменные с улучшенной палитрой */
   --font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --background: #f7f8fa;
+  --background: #E7F1ED;
   --background-2: #f7f8fa;
   --background-3: #ffffff;
   --backdrop: rgba(29, 30, 33, 0.3);
@@ -38,28 +36,22 @@ body {
   --accent: #59b17a;
   --accent-2: #e85050;
   --text: #dcdddf;
-
-  /* Непосредственные стили */
+  --hover: #3f945f;
   font-family: var(--font-family);
-  background-color: var(--background);
+  background-color: var(--background-2);
   font-weight: 400;
   color: var(--main-black);
-
+  overflow-x: hidden;
 }
 
 #root {
   min-width: 320px;
-  min-height: 100vh; 
+  /* min-height: 800px;  */
   margin: 0 auto;
-  background: var( --accent-2);
+  /* background: var( --accent); */
   width: 100%;
   overflow-x: hidden;
 }
-
-
-
-
-
 
 /* Typography система */
 h1,
@@ -76,6 +68,8 @@ h6 {
 
 h1 {
   font-size: 1.25rem; /* 20px */
+  line-height: 120%;
+  color: var(--main-black);
 }
 
 h2 {
@@ -100,14 +94,16 @@ h6 {
 
 p {
   margin: 0;
-  color: var(--main-black);
-  line-height: 1.6;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 117%;
+  color: rgba(29, 30, 33, 0.4);
 }
 
 p:last-child {
   margin-bottom: 0;
 }
-
 
 /* Lists */
 li,
@@ -123,12 +119,13 @@ a {
   text-decoration: none;
   color: inherit;
   transition: color 0.2s ease-in-out;
+  display: inline-block;
 }
 
-a:hover,
+/* a:hover,
 a:focus {
-  color: #2563eb; /* Синий цвет при hover */
-}
+  color: #2563eb; Синий цвет при hover
+} */
 
 /* Buttons */
 button {
@@ -153,8 +150,8 @@ a:focus-visible {
 /* Images */
 img {
   display: block;
-  height: auto;
-  max-width: 100%; /* Предотвращает переполнение */
+  height: 100%;
+  max-width: 100%;
 }
 
 /* Form elements */
@@ -178,7 +175,7 @@ select:focus {
 }
 
 /* Utility классы для частых паттернов */
-.visuallyHidden {
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;

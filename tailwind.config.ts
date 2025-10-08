@@ -18,6 +18,8 @@ export default {
         accent2: 'var(--accent-2)',
         text: 'var(--text)',
         borderGray: "rgba(29,30,33,0.1)",
+        color: 'var(--main-black)',
+        hover_btn: 'var(--hover)',
       },
 
       maxWidth: {

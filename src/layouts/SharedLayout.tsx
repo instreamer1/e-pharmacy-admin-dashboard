@@ -15,15 +15,13 @@ const SharedLayout = () => {
 
   return (
     <>
-      <div className=" min-w-[320px] max-w-full mx-auto sm:max-w-[375px] md:max-w-[768px] lg:max-w-[1440px] bg-accent">
-        <Header onMenuClick={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-        <div className="flex flex-1">
-          <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+      <Header onMenuClick={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <div className="flex flex-1 h- h-full bg-background2">
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
-          <main className="flex-1 transition-all p-4  min-h-[800px] lg:pl-20">
-            <Outlet />
-          </main>
-        </div>
+        <main className="flex-1  ">
+          <Outlet />
+        </main>
       </div>
     </>
   )

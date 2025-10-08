@@ -1,53 +1,40 @@
 import { NavLink } from 'react-router-dom'
-
-
-
+import { navItems, getIconPath } from '../../constants/routeTitles'
 
 interface SidebarMenuProps {
-  
   onClose: () => void
 }
 
-const SidebarMenu = ({ onClose}: SidebarMenuProps) => {
-  const navItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { to: '/allProducts', label: 'Products', icon: '📦' },
-    { to: '/suppliers', label: 'Suppliers', icon: '🏢' },
-    { to: '/customers', label: 'Customers', icon: '👥' },
-    { to: '/settings', label: 'Settings', icon: '⚙️' },
-  ]
-
+const SidebarMenu = ({ onClose }: SidebarMenuProps) => {
   return (
     <>
-      <nav className="flex-1 p-4 overflow-y-auto">
-        <ul className="space-y-2">
+      <nav className="flex-1 px-5  overflow-y-auto ">
+        <ul className="space-y-[14px]">
           {navItems.map((item) => (
-            <li key={item.to}>
+            <li
+              key={item.to}
+              onClick={onClose}
+              className="flex items-center justify-center  w-[38px] h-[38px] md:w-11 md:h-11 rounded-full bg-background3 shadow-[0_-1px_7px_0_rgba(71,71,71,0.05)] "
+            >
               <NavLink
                 to={item.to}
-                onClick={() => {
-                  // Закрываем сайдбар на mobile/tablet при клике на ссылку
-                  if (window.innerWidth < 768) {
-                    onClose()
-                  }
-                }}
+                // className=" flex items-center justify-center x-full h-full"
                 className={({ isActive }) =>
-                  `flex items-center px-3 py-2 rounded-lg transition-all duration-200 text-sm md:text-base ${
-                    isActive
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200 font-medium'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent'
-                  }`
+                  ` transition-colors duration-200 w-[38px] h-[38px] md:w-11 md:h-11 flex items-center justify-center
+                   ${isActive ? 'text-accent' : 'text-text'}
+                    hover:text-hover_btn focus:text-hover_btn`
                 }
               >
-                <span onClick={onClose} className="mr-3 text-base">{item.icon}</span>
-                {/* <span>{item.label}</span> */}
+               
+                <svg className="w-[14px] h-[14px] md:w-4 md:h-4">
+                  <use href={getIconPath(item.icon)} />
+                </svg>
               </NavLink>
             </li>
           ))}
         </ul>
       </nav>
 
-      {/* Адаптивная дополнительная информация */}
       {/* <div className="mt-8 p-4 bg-gray-50 rounded-lg border">
         <h3 className="font-medium text-gray-900 text-sm mb-2 md:text-base">
           Quick Stats

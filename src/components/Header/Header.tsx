@@ -21,32 +21,30 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isSidebarOpen }) => {
   const { isAuthenticated, user } = useAuth()
 
   return (
-    <header className="flex items-center bg-background2 border-b border-borderGray  px-5 h-20 ">
-      {/* Бургер только на мобилке */}
-      {!isSidebarOpen && (
-        <button
-          className="mr-5 lg:hidden"
-          onClick={onMenuClick}
-          type="button"
-          aria-controls="sidebar"
-          aria-expanded={isSidebarOpen}
-        >
-          <svg className={css.burger}>
-            <use href={`${iconSprite}#burger`} />
-          </svg>
-        </button>
-      )}
+    <header className="flex items-center bg-background2 border-b border-borderGray h-20 px-5 md:px-8 py-[17px] lg:px-5">
+      <button
+        className=" mr-2 md:mr-4 lg:hidden"
+        onClick={onMenuClick}
+        type="button"
+        aria-controls="sidebar"
+        aria-expanded={isSidebarOpen}
+      >
+        <svg className={css.burger}>
+          <use href={`${iconSprite}#burger`} />
+        </svg>
+      </button>
 
       <Logo />
-      <div className="flex flex-col  items-center gap-1 ml-5">
+      <div className="flex flex-col  items-center gap-1 ml-5 md:ml-8 lg:ml-[60px]">
         <h1 className="">Medicine Store</h1>
         <div className="flex flex-row items-center ">
-          <p className="text-gray-500">{ROUTE_TITLES[location.pathname] ?? 'Unknown page'}</p>
-          <p className="text-gray-500">{user?.email || 'guest'}</p>
+          <p className="text-gray-500">
+            {ROUTE_TITLES[location.pathname] ?? 'Unknown page'} | {user?.email || 'guest'}
+          </p>
         </div>
       </div>
 
-      <div className="sm:hidden md:hidden lg:block">
+      <div className="hidden  w-[38px] h-[38px]  lg:block ml-auto">
         <LogOutBtn />
       </div>
     </header>
