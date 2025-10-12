@@ -1,9 +1,10 @@
 import type { NormalizedError } from "../../utils/normalizeError"
+import type { Role } from '../../constants/roles';
 
 export interface User {
   name: string
   email: string
-  role: string
+  role: Role
 }
 
 export interface AuthState {
@@ -21,6 +22,6 @@ export interface LoginCredentials {
 }
 
 export interface UserResponse {
-  user: User
+  role: string
   accessToken: string
 }

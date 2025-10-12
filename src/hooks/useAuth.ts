@@ -1,12 +1,14 @@
-import { useSelector } from 'react-redux';
+// hooks/useAuth.ts
+
 import { selectUser, selectIsLoggedIn } from '../store/authSlice/selectors';
+import { useAppSelector } from '../store/hooks';
 
 export const useAuth = () => {
-  const user = useSelector(selectUser);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useAppSelector(selectUser);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   return {
-    user,
-    isAuthenticated: isLoggedIn,
+    user: user || null, // на случай, если user null
+    isAuthenticated: isLoggedIn === 'true' || isLoggedIn === true, // если хранится в localStorage как string
   };
 };

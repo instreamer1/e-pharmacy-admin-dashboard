@@ -39,8 +39,8 @@ const LoginPage = () => {
       await dispatch(logInUser({ email, password })).unwrap()
       toast.success('User registered successfully!')
       reset()
-      await dispatch(fetchCurrentUser()).unwrap();
-      navigate('/dashboard')
+      // await dispatch(fetchCurrentUser()).unwrap();
+      // navigate('/dashboard')
     } catch (error) {
       const normalized = normalizeError(error)
       toast.error(normalized.message) 

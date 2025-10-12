@@ -1,13 +1,24 @@
+import { useEffect } from 'react'
 import IncomeExpenses from '../../components/IncomeExpenses/IncomeExpenses'
 import RecentCustomers from '../../components/RecentCustomers/RecentCustomers'
 import Statistics from '../../components/Statistics/Statistics'
-import css from './DashboardPage.module.css'
+import { selectDashboard } from '../../store/dashboardSlice/selectors'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+
+import { fetchDashboardData } from '../../store/dashboardSlice/operations'
 
 const DashboardPage = () => {
+  const dispatch = useAppDispatch()
+  const { statistics, recentCustomers, incomeExpenses, loading } = useAppSelector(selectDashboard)
+
+  useEffect(() => {
+    dispatch(fetchDashboardData())
+  }, [dispatch])
+
+  if (loading) return <p>Loading...</p>
   return (
     <section className="py-5">
       <div className="px-5">
-        
         <h1 className="visually-hidden">Dashboard</h1>
 
         {/* Статистика */}

@@ -6,6 +6,7 @@ import { clearAllCookies } from '../../utils/cookies'
 import { purgePersistedState } from '../persist'
 import type { LoginCredentials, User, UserResponse } from './types'
 import type { RootState } from '../store'
+import { refreshApi } from '../../services/refreshApi'
 
 
 export const logInUser = createAsyncThunk<
@@ -85,7 +86,7 @@ export const refresh = createAsyncThunk<
     }
 
     isRefreshing = true
-    refreshPromise = authService.refreshToken().then((response) => response.data)
+    refreshPromise = refreshApi.post("/user/refresh").then((response) => response.data)
 
     const data = await refreshPromise
     if (!data?.accessToken) {

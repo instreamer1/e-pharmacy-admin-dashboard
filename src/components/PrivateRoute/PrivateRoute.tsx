@@ -1,23 +1,27 @@
+// components/PrivateRoute/PrivateRoute.tsx
 import { Navigate } from 'react-router-dom';
+
+
 import { useAuth } from '../../hooks/useAuth';
+import type { Role } from '../../constants/roles';
 
 interface PrivateRouteProps {
   children: JSX.Element;
+  requiredRoles?: Role[]; // строго типизировано
 }
 
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { isAuthenticated, user } = useAuth(); // user.role, например: 'admin'
+const PrivateRoute = ({ children, requiredRoles }: PrivateRouteProps) => {
+  const { isAuthenticated, user } = useAuth();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // if (requiredRoles && !requiredRoles.includes(user.role)) {
-  //   return <Navigate to="/unauthorized" replace />;
-  // }
+  if (requiredRoles && !requiredRoles.includes(user?.role || '')) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-  return <>{children}</>;
+  return children;
 };
 
-export default PrivateRoute;
-
+export default PrivateRoute

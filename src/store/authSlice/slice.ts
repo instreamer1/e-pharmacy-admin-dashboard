@@ -5,8 +5,6 @@ import { logInUser, logOutUser, refresh, fetchCurrentUser } from './operations'
 import type { NormalizedError } from '../../utils/normalizeError'
 import type { AuthState } from './types'
 
-
-
 const initialState: AuthState = {
   user: null,
   accessToken: null,
@@ -23,6 +21,14 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null
     },
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload
+    },
+    logOut: (state) => {
+      state.accessToken = null
+      state.user = null
+      state.isLoggedIn = false
+    },
   },
   extraReducers: (builder) => {
     //  LOG IN
@@ -32,7 +38,9 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logInUser.fulfilled, (state, action) => {
-        state.user = action.payload.user
+        console.log(action.payload);
+        state.user = { name: '', email: '',role: action.payload.role };
+        // state.user= {...state.user, state.user.role = action.payload.role}
         state.accessToken = action.payload.accessToken
         state.isLoggedIn = true
         state.isLoading = false
@@ -105,5 +113,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { clearError } = authSlice.actions
+export const { clearError, setAccessToken, logOut } = authSlice.actions
 export const authReducer = authSlice.reducer

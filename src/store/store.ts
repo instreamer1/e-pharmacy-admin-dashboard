@@ -12,8 +12,9 @@ import {
 } from "redux-persist";
 import { rootReducer } from "./rootReducer";
 import { authMiddleware } from "./middleware/authMiddleware"; 
+import { setupApiInterceptors } from "../services/apiSetup";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -25,11 +26,13 @@ export const store = configureStore({
     }).concat(authMiddleware),
 });
 
+setupApiInterceptors(store);
 export const persistor = persistStore(store);
 
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export default store;
 
 
 
