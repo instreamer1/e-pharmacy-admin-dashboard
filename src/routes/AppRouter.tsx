@@ -21,14 +21,13 @@ const AppRouter = () => {
         element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />}
       />
 
-      {/* Unauthorized page */}
-      {/* <Route path="/unauthorized" element={<UnauthorizedPage />} /> */}
+
 
       {/* Protected routes */}
       <Route
         path="/"
         element={
-         <PrivateRoute requiredRoles={[ROLES.ADMIN]}>
+         <PrivateRoute >
             <SharedLayout />
           </PrivateRoute>
         }

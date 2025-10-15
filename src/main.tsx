@@ -6,7 +6,9 @@ import './index.css'
 import App from './App.tsx'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
-import store, { persistor } from './store/store.ts'
+import { store, persistor } from './store/store.ts'
+
+// setupApiInterceptors(store)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

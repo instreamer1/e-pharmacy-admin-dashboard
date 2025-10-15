@@ -1,15 +1,15 @@
-import { isRejectedWithValue } from '@reduxjs/toolkit'
 import { logOutUser } from '../authSlice/operations.js'
 
 export const authMiddleware = (store) => (next) => (action) => {
-  if (isRejectedWithValue(action)) {
-    const status = action.payload?.status
-
-    if (status === 401) {
-      console.warn('401 — dispatching logOutUser() from middleware')
-      store.dispatch(logOutUser())
+  if (
+    action.type.endsWith("rejected") &&
+    action.payload?.response?.status === 401
+  ) {
+    
+    if (!action.meta?.arg?.isRefreshRequest) {
+      store.dispatch(logOutUser());
     }
   }
 
-  return next(action)
-}
+  return next(action);
+};

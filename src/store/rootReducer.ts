@@ -9,7 +9,7 @@ import { dashboardReducer } from './dashboardSlice/slice.ts'
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'isLoggedIn', 'user'],
+  whitelist: ['accessToken', 'isLoggedIn'],
 }
 
 export const rootReducer = combineReducers({
@@ -20,16 +20,3 @@ export const rootReducer = combineReducers({
   // orders: ordersReducer,
 })
 
-// Если хочешь глобально чистить стейт (например, при logOutUser.fulfilled), можно в rootReducer завернуть его в функцию:
-
-// const appReducer = combineReducers({
-//   auth: persistReducer(authPersistConfig, authReducer),
-//   // другие редьюсеры
-// });
-
-// export const rootReducer = (state: any, action: any) => {
-//   if (action.type === "auth/logOutUser/fulfilled") {
-//     state = undefined; // сброс всех редьюсеров
-//   }
-//   return appReducer(state, action);
-// };

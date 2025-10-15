@@ -6,14 +6,32 @@ import './App.css'
 
 import AppRouter from './routes/AppRouter'
 import { useEffect } from 'react'
-import { refresh } from './store/authSlice/operations'
-import { useAppDispatch } from './store/hooks'
+import { fetchCurrentUser, refresh } from './store/authSlice/operations'
+import { useAppDispatch, useAppSelector } from './store/hooks'
+import { useAuth } from './hooks/useAuth'
+import { selectIsRefreshing } from './store/authSlice/selectors'
 
 const App = () => {
   const dispatch = useAppDispatch()
+  const isRefreshing = useAppSelector(selectIsRefreshing);
+  const { isAuthenticated } = useAuth()
+
   useEffect(() => {
+    // 🟢 Шаг 1: обновляем токен
     dispatch(refresh())
-  }, [])
+      .unwrap()
+      .then(() => {
+        // 🟢 Шаг 2: получаем данные пользователя
+        dispatch(fetchCurrentUser());
+      })
+      .catch(() => {
+        // Если refresh не удался — ничего не делаем, просто считаем, что пользователь не авторизован
+      });
+  }, [dispatch]);
+
+  if (isRefreshing) {
+    return <div>Loading...</div>; // Или спиннер, пока идет refresh
+  }
 
   return (
     <>

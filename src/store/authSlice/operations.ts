@@ -6,8 +6,8 @@ import { clearAllCookies } from '../../utils/cookies'
 import { purgePersistedState } from '../persist'
 import type { LoginCredentials, User, UserResponse } from './types'
 import type { RootState } from '../store'
-import { refreshApi } from '../../services/refreshApi'
 
+import type { Role } from '../../constants/roles'
 
 export const logInUser = createAsyncThunk<
   UserResponse,
@@ -27,25 +27,54 @@ export const logOutUser = createAsyncThunk<
   void,
   void,
   { rejectValue: NormalizedError; extra: { persistor: any } }
->('auth/logOutUser', async (_, thunkAPI) => {
-  const { persistor } = thunkAPI.extra
+>(
+  "auth/logOutUser",
+  async (_, thunkAPI) => {
+    const { persistor } = thunkAPI.extra;
 
-  try {
-    await authService.logout()
-    clearAllCookies()
-    await purgePersistedState(persistor)
-
-    localStorage.clear()
-    sessionStorage.clear()
-  } catch (error) {
-    clearAllCookies()
-    await purgePersistedState(persistor)
-    localStorage.clear()
-    sessionStorage.clear()
-
-    return thunkAPI.rejectWithValue(error as NormalizedError)
+    try {
+      await authService.logout();
+    } catch (error) {
+     
+      console.warn("Logout request failed:", error);
+      return thunkAPI.rejectWithValue(error as NormalizedError);
+    } finally {
+      try {
+        clearAllCookies();
+        await purgePersistedState(persistor);
+        localStorage.removeItem("persist:auth");
+        sessionStorage.clear();
+      } catch (cleanupError) {
+        console.error("Cleanup after logout failed:", cleanupError);
+      }
+    }
   }
-})
+);
+
+
+// export const logOutUser = createAsyncThunk<
+//   void,
+//   void,
+//   { rejectValue: NormalizedError; extra: { persistor: any } }
+// >('auth/logOutUser', async (_, thunkAPI) => {
+//   const { persistor } = thunkAPI.extra
+
+//   try {
+//     await authService.logout()
+//     clearAllCookies()
+//     await purgePersistedState(persistor)
+
+//     // localStorage.clear()
+//     sessionStorage.clear()
+//   } catch (error) {
+//     clearAllCookies()
+//     await purgePersistedState(persistor)
+//     localStorage.clear()
+//     sessionStorage.clear()
+
+//     return thunkAPI.rejectWithValue(error as NormalizedError)
+//   }
+// })
 
 export const fetchCurrentUser = createAsyncThunk<
   User,
@@ -86,7 +115,7 @@ export const refresh = createAsyncThunk<
     }
 
     isRefreshing = true
-    refreshPromise = refreshApi.post("/user/refresh").then((response) => response.data)
+    refreshPromise = authService.refreshToken().then((response) => response.data)
 
     const data = await refreshPromise
     if (!data?.accessToken) {

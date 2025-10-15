@@ -8,7 +8,7 @@ export const useAuth = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   return {
-    user: user || null, // на случай, если user null
-    isAuthenticated: isLoggedIn === 'true' || isLoggedIn === true, // если хранится в localStorage как string
+    user: user || null,
+    isAuthenticated: Boolean(isLoggedIn),
   };
 };

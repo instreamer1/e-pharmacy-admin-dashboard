@@ -38,9 +38,8 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logInUser.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.user = { name: '', email: '',role: action.payload.role };
-        // state.user= {...state.user, state.user.role = action.payload.role}
+        console.log(action.payload)
+        state.user = { role: action.payload.role }
         state.accessToken = action.payload.accessToken
         state.isLoggedIn = true
         state.isLoading = false
@@ -63,7 +62,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = null
       })
-      .addCase(logOutUser.rejected, (state, action: PayloadAction<NormalizedError | undefined>) => {
+      .addCase(logOutUser.rejected, (state, action) => {
         state.user = null
         state.accessToken = null
         state.isLoggedIn = false
@@ -98,6 +97,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        console.log('fetchCurrentUser', action.payload);
         state.user = action.payload
         state.isLoading = false
         state.isLoggedIn = true
