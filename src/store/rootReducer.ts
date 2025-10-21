@@ -9,7 +9,7 @@ import { dashboardReducer } from './dashboardSlice/slice.ts'
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'isLoggedIn'],
+  whitelist: ['user', 'isAuthenticated'],
 }
 
 export const rootReducer = combineReducers({
@@ -19,4 +19,3 @@ export const rootReducer = combineReducers({
   // products: productsReducer,
   // orders: ordersReducer,
 })
-

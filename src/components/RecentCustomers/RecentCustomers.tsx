@@ -1,4 +1,4 @@
-const RecentCustomers = () => {
+const RecentCustomers = ({recentCustomers}) => {
   // data
   const customers = [
     { id: 1, name: 'John Doe', email: 'john@example.com', spent: 250 },

@@ -13,7 +13,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ children, requiredRoles }: PrivateRouteProps) => {
   const isRefreshing = useAppSelector(selectIsRefreshing)
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user, isLoading } = useAuth()
 
   if (isRefreshing) {
     return <div>Loading...</div> // Или спиннер

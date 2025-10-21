@@ -1,3 +1,5 @@
+//src/routes/AppRouter
+
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 // import UnauthorizedPage from '@/pages/UnauthorizedPage';
@@ -9,42 +11,38 @@ import { useAuth } from '../hooks/useAuth'
 import AllProductsPage from '../pages/AllProductsPage/AllProductsPage'
 import UnauthorizedPage from '../pages/UnauthorizedPage'
 import { ROLES } from '../constants/roles'
-
+import ProtectedRoute from '../components/PrivateRoute/ProtectedRoute'
+import AdminRoute from '../components/AdminRoute.tsx'
+import PublicRoute from '../components/PrivateRoute/PublicRoute.tsx'
 const AppRouter = () => {
-  const { isAuthenticated } = useAuth()
+  // const { isAuthenticated } = useAuth()
 
   return (
     <Routes>
       {/* Login */}
       <Route
         path="/login"
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />}
+        element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        }
       />
-
-
 
       {/* Protected routes */}
       <Route
         path="/"
         element={
-         <PrivateRoute >
+          // <ProtectedRoute requiredRoles={[ROLES.ADMIN]}>
+         <AdminRoute> 
             <SharedLayout />
-          </PrivateRoute>
+        </AdminRoute> 
+          //  </ProtectedRoute>
         }
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="allProducts" element={<AllProductsPage />} />
-
-        {/* Example admin route */}
-        {/* <Route
-          path="admin"
-          element={
-            <RoleRoute allowedRoles={['admin']}>
-              <AdminPage />
-            </RoleRoute>
-          }
-        /> */}
       </Route>
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
       {/* 404 */}

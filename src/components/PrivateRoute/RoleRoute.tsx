@@ -7,7 +7,7 @@ interface RoleRouteProps {
 }
 
 const RoleRoute = ({ allowedRoles, children }: RoleRouteProps) => {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated, roles } = useAuth();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

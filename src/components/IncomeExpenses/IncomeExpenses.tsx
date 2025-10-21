@@ -1,4 +1,4 @@
-const IncomeExpenses = () => {
+const IncomeExpenses = ({incomeExpenses}) => {
   // заглушка данных
   const records = [
     { id: 1, type: "Income", name: "Order #1234", email: "client1@example.com", amount: 500 },

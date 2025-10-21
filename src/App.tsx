@@ -6,31 +6,66 @@ import './App.css'
 
 import AppRouter from './routes/AppRouter'
 import { useEffect } from 'react'
-import { fetchCurrentUser, refresh } from './store/authSlice/operations'
+// import { fetchCurrentUser, refresh } from './store/authSlice/operations'
+
 import { useAppDispatch, useAppSelector } from './store/hooks'
-import { useAuth } from './hooks/useAuth'
+
 import { selectIsRefreshing } from './store/authSlice/selectors'
+import { refresh } from './store/authSlice/operations'
 
 const App = () => {
   const dispatch = useAppDispatch()
-  const isRefreshing = useAppSelector(selectIsRefreshing);
-  const { isAuthenticated } = useAuth()
+
+  const isRefreshing = useAppSelector(selectIsRefreshing)
+  // useEffect(() => {
+  //   const initializeAuth = async () => {
+  //     try {
+  //       const accessToken = localStorage.getItem('accessToken')
+  //       const hasRefreshToken = document.cookie.includes('refreshToken')
+
+  //       // ✅ Только если есть refreshToken но нет accessToken
+  //       if (!accessToken && hasRefreshToken && !isRefreshing) {
+  //         console.log('🔄 Attempting to refresh token...')
+  //         // const result = await dispatch(refresh()).unwrap()
+  //         // console.log('✅ Token refreshed successfully')
+  //       } else if (accessToken) {
+  //         console.log('✅ Access token found, app ready')
+  //       // } else {
+  //       //   console.log('🔐 No tokens found, user needs to login')
+  //       }
+  //     } catch (error) {
+  //       console.error('❌ Token refresh failed:', error)
+  //       // ✅ Автоматически очищаем невалидные токены
+  //       localStorage.removeItem('accessToken')
+  //     }
+  //   }
+
+  //   initializeAuth()
+  // }, [dispatch, isRefreshing])
 
   useEffect(() => {
-    // 🟢 Шаг 1: обновляем токен
-    dispatch(refresh())
-      .unwrap()
-      .then(() => {
-        // 🟢 Шаг 2: получаем данные пользователя
-        dispatch(fetchCurrentUser());
-      })
-      .catch(() => {
-        // Если refresh не удался — ничего не делаем, просто считаем, что пользователь не авторизован
-      });
-  }, [dispatch]);
+    const useAuthInit = async () => {
+      try {
+      
+if ( !isRefreshing) {
+        dispatch(refresh())
+}
+      } catch (error) {
+        console.error('❌ Token refresh failed:', error)
+        // ✅ Автоматически очищаем невалидные токены
+        // localStorage.removeItem('accessToken')
+      }
+    }
+    useAuthInit()
+  }, [dispatch])
 
+  // ✅ Пока идет refresh - показываем loading
   if (isRefreshing) {
-    return <div>Loading...</div>; // Или спиннер, пока идет refresh
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div>Refreshing session...</div>
+      </div>
+    )
   }
 
   return (

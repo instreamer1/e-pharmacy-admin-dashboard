@@ -9,7 +9,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'
 import { useAppDispatch } from '../../store/hooks'
 import toast from 'react-hot-toast'
 import { loginSchema } from '../../schemas/loginSchema'
-import { fetchCurrentUser, logInUser } from '../../store/authSlice/operations'
+import { logInUser } from '../../store/authSlice/operations'
 import { normalizeError } from '../../utils/normalizeError'
 // import LineContainer from '../../components/LineContainer/LineContainer';
 
@@ -43,7 +43,9 @@ const LoginPage = () => {
       // navigate('/dashboard')
     } catch (error) {
       const normalized = normalizeError(error)
-      toast.error(normalized.message) 
+      navigate('/login')
+      reset()
+      toast.error(normalized.message)
     }
   }
 

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { fetchDashboardData } from './operations'
 
 const initialState = {
-  statistics: null,
+  statistics: [],
   recentCustomers: [],
   incomeExpenses: [],
   loading: false,

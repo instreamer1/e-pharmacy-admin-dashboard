@@ -8,6 +8,9 @@ import type { LoginCredentials, User, UserResponse } from './types'
 import type { RootState } from '../store'
 
 import type { Role } from '../../constants/roles'
+import axios from 'axios'
+import { tokenStorage } from '../../utils/TokenStorage'
+import { logOut } from './slice'
 
 export const logInUser = createAsyncThunk<
   UserResponse,
@@ -16,6 +19,11 @@ export const logInUser = createAsyncThunk<
 >('auth/logInUser', async (credentials, thunkAPI) => {
   try {
     const response = await authService.login(credentials)
+    // localStorage.setItem('accessToken', response.data.accessToken)
+    const { accessToken, roles } = response.data
+
+    // ✅ Сохраняем токен в памяти
+    tokenStorage.setToken(accessToken)
     return response.data
   } catch (error: unknown) {
     const normalizedError = normalizeError(error)
@@ -27,30 +35,27 @@ export const logOutUser = createAsyncThunk<
   void,
   void,
   { rejectValue: NormalizedError; extra: { persistor: any } }
->(
-  "auth/logOutUser",
-  async (_, thunkAPI) => {
-    const { persistor } = thunkAPI.extra;
+>('auth/logOutUser', async (_, thunkAPI) => {
+  const { persistor } = thunkAPI.extra
 
+  try {
+    await authService.logout()
+  } catch (error) {
+    console.warn('Logout request failed:', error)
+    return thunkAPI.rejectWithValue(error as NormalizedError)
+  } finally {
     try {
-      await authService.logout();
-    } catch (error) {
-     
-      console.warn("Logout request failed:", error);
-      return thunkAPI.rejectWithValue(error as NormalizedError);
-    } finally {
-      try {
-        clearAllCookies();
-        await purgePersistedState(persistor);
-        localStorage.removeItem("persist:auth");
-        sessionStorage.clear();
-      } catch (cleanupError) {
-        console.error("Cleanup after logout failed:", cleanupError);
-      }
+      clearAllCookies()
+      await purgePersistedState(persistor)
+      // localStorage.removeItem('accessToken')
+      tokenStorage.clearToken()
+      sessionStorage.clear()
+      thunkAPI.dispatch(logOut())
+    } catch (cleanupError) {
+      console.error('Cleanup after logout failed:', cleanupError)
     }
   }
-);
-
+})
 
 // export const logOutUser = createAsyncThunk<
 //   void,
@@ -76,13 +81,15 @@ export const logOutUser = createAsyncThunk<
 //   }
 // })
 
-export const fetchCurrentUser = createAsyncThunk<
+export const getProfile = createAsyncThunk<
   User,
   void,
   { rejectValue: NormalizedError; state: RootState }
->('auth/fetchCurrentUser', async (_, thunkAPI) => {
+>('auth/getProfile', async (_, thunkAPI) => {
   try {
-    const token = thunkAPI.getState().auth.accessToken
+    // const token = localStorage.getItem('accessToken')
+    const token = tokenStorage.getToken()
+    // const token = thunkAPI.getState().auth.accessToken
     if (!token) {
       return thunkAPI.rejectWithValue({
         message: 'No access token',
@@ -92,6 +99,7 @@ export const fetchCurrentUser = createAsyncThunk<
     const response = await authService.getCurrentUser(token)
     return response.data
   } catch (error: unknown) {
+    localStorage.removeItem('accessToken')
     return thunkAPI.rejectWithValue(normalizeError(error))
   }
 })
@@ -106,22 +114,30 @@ export const refresh = createAsyncThunk<
 >('auth/refresh', async (_, thunkApi) => {
   try {
     if (isRefreshing && refreshPromise) {
-      const data = await refreshPromise
-      if (!data?.accessToken) {
+      const response = await refreshPromise
+      if (!response.data?.accessToken) {
         throw new Error('No access token in refresh response')
       }
-
-      return data
+      const { accessToken } = response.data
+      // localStorage.setItem('accessToken', data.accessToken)
+      tokenStorage.setToken(accessToken)
+      return response.data
     }
 
     isRefreshing = true
-    refreshPromise = authService.refreshToken().then((response) => response.data)
+
+    refreshPromise = authService.refreshToken()
+      //axios .post(`${import.meta.env.VITE_API_BASE_URL}/user/refresh`, { withCredentials: true })
+      .then((response) => response.data)
+    // refreshPromise = authService.refreshToken().then((response) => response.data)
 
     const data = await refreshPromise
+    console.log(data.accessToken);
     if (!data?.accessToken) {
       throw new Error('No access token in refresh response')
     }
-    return data
+    tokenStorage.setToken(data.accessToken)
+    return data.roles
   } catch (error) {
     return thunkApi.rejectWithValue(normalizeError(error))
   } finally {

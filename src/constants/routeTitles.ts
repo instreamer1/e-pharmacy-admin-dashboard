@@ -6,6 +6,7 @@ export enum IconId {
   Suppliers = 'icon-mingcute_flask-fill',
   Customers = 'icon-mdi_local-pharmacy',
   Settings = 'icon-mdi_users',
+  Money = 'icon-streamline_money-cash',
 }
 
 export const getIconPath = (id: IconId) => `${iconSprite}#${id}`
@@ -22,6 +23,7 @@ export const navItems: NavItem[] = [
   { to: '/suppliers', label: 'Suppliers', icon: IconId.Suppliers },
   { to: '/customers', label: 'Customers', icon: IconId.Customers },
   { to: '/settings', label: 'Settings', icon: IconId.Settings },
+  {  to: '', label: 'Money', icon: IconId.Money },
 ]
 
 export const ROUTE_TITLES: Record<string, string> = {

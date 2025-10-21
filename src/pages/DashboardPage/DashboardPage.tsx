@@ -6,13 +6,19 @@ import { selectDashboard } from '../../store/dashboardSlice/selectors'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import { fetchDashboardData } from '../../store/dashboardSlice/operations'
+import { string } from 'yup'
+import { getProfile } from '../../store/authSlice/operations'
+// import { fetchCurrentUser } from '../../store/authSlice/operations'
 
 const DashboardPage = () => {
   const dispatch = useAppDispatch()
   const { statistics, recentCustomers, incomeExpenses, loading } = useAppSelector(selectDashboard)
-
+  // const persistedAuth = localStorage.getItem('persist:auth');
+  // console.log(persistedAuth);
   useEffect(() => {
+
     dispatch(fetchDashboardData())
+
   }, [dispatch])
 
   if (loading) return <p>Loading...</p>
@@ -21,15 +27,15 @@ const DashboardPage = () => {
       <div className="px-5">
         <h1 className="visually-hidden">Dashboard</h1>
 
-        {/* Статистика */}
-        <Statistics />
+    
+        <Statistics statistics={statistics} />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Последние клиенты */}
-          <RecentCustomers />
+        
+          <RecentCustomers recentCustomers={recentCustomers} />
 
           {/* Доходы/Расходы */}
-          <IncomeExpenses />
+          <IncomeExpenses incomeExpenses="incomeExpenses" />
         </div>
       </div>
     </section>

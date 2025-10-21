@@ -12,7 +12,7 @@ import {
 } from "redux-persist";
 import { rootReducer } from "./rootReducer";
 import { authMiddleware } from "./middleware/authMiddleware"; 
-import { setupApiInterceptors } from "../services/apiSetup";
+// import { setupApiInterceptors } from "../services/apiSetup";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -26,7 +26,7 @@ export const store = configureStore({
     }).concat(authMiddleware),
 });
 
-setupApiInterceptors(store);
+// setupApiInterceptors(store);
 
 export const persistor = persistStore(store);
 
