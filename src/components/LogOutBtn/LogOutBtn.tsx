@@ -2,13 +2,24 @@ import { useAppDispatch } from '../../store/hooks'
 import { logOutUser } from '../../store/authSlice/operations'
 import { useNavigate } from 'react-router-dom'
 import iconSprite from '../../assets/icons/sprite.svg'
+import { useAuth } from '../../hooks/useAuth'
 
 const LogOutBtn = () => {
+  const {logout}= useAuth()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handleLogout = async () => {
-    await dispatch(logOutUser())
-    navigate('/login', { replace: true })
+     try {
+     console.log('🔄 Starting logout...')
+    // await dispatch(logOutUser())
+   logout()
+     console.log('➡️ Redirecting to login...')
+      navigate('/login', { replace: true })
+  }catch (error) {
+      console.error('❌ Logout error:', error)
+      // ✅ Все равно редиректим на логин даже при ошибке
+      navigate('/login', { replace: true })
+    }
   }
 
   return (

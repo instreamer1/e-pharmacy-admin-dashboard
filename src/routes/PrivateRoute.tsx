@@ -34,4 +34,4 @@ const PrivateRoute = ({ children, requiredRoles }: PrivateRouteProps) => {
   return children
 }
 
-export default PrivateRoute
+// export default PrivateRoute

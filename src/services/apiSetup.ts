@@ -82,7 +82,7 @@ console.log("interceptors", error);
   }
 );
 
-export default api;
+// export default api;
 
 // import type { Store } from '@reduxjs/toolkit'
 // import type { RootState } from '../store/store'

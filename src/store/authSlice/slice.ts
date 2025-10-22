@@ -7,6 +7,10 @@ import type { AuthState } from './types'
 
 const initialState: AuthState = {
   user: null,
+  tokens: {
+    accessToken: '',
+    expiresIn: '',
+  },
   isAuthenticated: false,
   isRefreshing: false,
   isLoading: false,
@@ -34,11 +38,14 @@ const authSlice = createSlice({
       })
       .addCase(logInUser.fulfilled, (state, action) => {
         console.log(action.payload)
-        state.user = {
-          // name: action.payload.name,
-          // email: action.payload.email,
-
-          roles: action.payload.roles,
+        // state.user = {
+        // name: action.payload.name,
+        // email: action.payload.email,
+        // roles:action.payload.roles,
+        // }
+        state.tokens = {
+          accessToken: action.payload.tokens.accessToken,
+          expiresIn: action.payload.tokens.expiresIn,
         }
         state.isAuthenticated = true
         state.isLoading = false
@@ -75,11 +82,15 @@ const authSlice = createSlice({
       })
       .addCase(refresh.fulfilled, (state, action) => {
         console.log(action.payload)
-          state.user = {
-          // name: action.payload.name,
-          // email: action.payload.email,
+        // state.user = {
+        // name: action.payload.name,
+        // email: action.payload.email,
 
-          roles: action.payload,
+        //   roles: action.payload,
+        // }
+        state.tokens = {
+           accessToken: action.payload.tokens.accessToken,
+          expiresIn: action.payload.tokens.expiresIn,
         }
         state.isRefreshing = false
         state.isAuthenticated = true
@@ -105,7 +116,7 @@ const authSlice = createSlice({
           // id: action.payload.id,
           email: action.payload.email,
           name: action.payload.name,
-          roles: action.payload.roles, // ✅ ['admin']
+          roles: action.payload.roles,
         }
         state.isLoading = false
         state.isAuthenticated = true

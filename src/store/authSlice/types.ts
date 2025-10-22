@@ -4,12 +4,15 @@ import type { Role } from '../../constants/roles'
 export interface User {
   name?: string
   email?: string
-  roles: Role[];
+  roles: Role[]
 }
 
 export interface AuthState {
   user: User | null
-
+  tokens: {
+    accessToken: string
+    expiresIn: string
+  }
   isAuthenticated: boolean
   isRefreshing: boolean
   isLoading: boolean
@@ -22,6 +25,7 @@ export interface LoginCredentials {
 }
 
 export interface UserResponse {
-  accessToken: string
+ tokens: {accessToken: string
+  expiresIn: string}
   roles: Role
 }

@@ -1,16 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom'
 import css from './LoginPage.module.css'
 import { useState } from 'react'
-import MainContent from '../../components/MainContent/MainContent'
-import Logo from '../../components/Logo/Logo'
+import MainContent from '../../../components/MainContent/MainContent'
+import Logo from '../../../components/Logo/Logo'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch } from '../../../store/hooks'
 import toast from 'react-hot-toast'
-import { loginSchema } from '../../schemas/loginSchema'
-import { logInUser } from '../../store/authSlice/operations'
-import { normalizeError } from '../../utils/normalizeError'
+import { loginSchema } from '../../../schemas/loginSchema'
+import { logInUser } from '../../../store/authSlice/operations'
+import { normalizeError } from '../../../utils/normalizeError'
+import { useAuth } from '../../../hooks/useAuth'
 // import LineContainer from '../../components/LineContainer/LineContainer';
 
 type LoginFormData = {
@@ -20,6 +21,7 @@ type LoginFormData = {
 
 const LoginPage = () => {
   const dispatch = useAppDispatch()
+  const { login, isLoading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const {
@@ -32,18 +34,28 @@ const LoginPage = () => {
     mode: 'onChange',
   })
 
-  const onSubmit = async (data: LoginFormData) => {
-    const email = data.email.trim()
-    const password = data.password.trim()
+  const onSubmit = async (credentials: LoginFormData) => {
+    const email = credentials.email.trim()
+    const password = credentials.password.trim()
     try {
-      await dispatch(logInUser({ email, password })).unwrap()
+      console.log('🔄 Starting login process...')
+      const result = await login(credentials)
+      console.log('✅ Login successful, result:', result)
+
+      // ✅ РЕДИРЕКТ ПОСЛЕ УСПЕШНОГО ЛОГИНА
+      console.log('➡️ Redirecting to dashboard...')
+      navigate('/dashboard', { replace: true })
+
+      // await login({ email, password })
+      // .unwrap()
       toast.success('User registered successfully!')
       reset()
       // await dispatch(fetchCurrentUser()).unwrap();
       // navigate('/dashboard')
     } catch (error) {
+      console.error('❌ Login failed:', error)
       const normalized = normalizeError(error)
-      navigate('/login')
+      // navigate('/login')
       reset()
       toast.error(normalized.message)
     }

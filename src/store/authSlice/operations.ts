@@ -20,7 +20,7 @@ export const logInUser = createAsyncThunk<
   try {
     const response = await authService.login(credentials)
     // localStorage.setItem('accessToken', response.data.accessToken)
-    const { accessToken, roles } = response.data
+    const { accessToken, expiresIn } = response.data.tokens
 
     // ✅ Сохраняем токен в памяти
     tokenStorage.setToken(accessToken)
@@ -108,7 +108,7 @@ let isRefreshing = false
 let refreshPromise: Promise<any> | null = null
 
 export const refresh = createAsyncThunk<
-  { accessToken: string },
+  UserResponse,
   void,
   { rejectValue: NormalizedError }
 >('auth/refresh', async (_, thunkApi) => {
@@ -118,7 +118,7 @@ export const refresh = createAsyncThunk<
       if (!response.data?.accessToken) {
         throw new Error('No access token in refresh response')
       }
-      const { accessToken } = response.data
+      const { accessToken, expiresIn } = response.data.tokens
       // localStorage.setItem('accessToken', data.accessToken)
       tokenStorage.setToken(accessToken)
       return response.data
@@ -136,8 +136,8 @@ export const refresh = createAsyncThunk<
     if (!data?.accessToken) {
       throw new Error('No access token in refresh response')
     }
-    tokenStorage.setToken(data.accessToken)
-    return data.roles
+    tokenStorage.setToken(data.tokens.accessToken)
+    return data
   } catch (error) {
     return thunkApi.rejectWithValue(normalizeError(error))
   } finally {

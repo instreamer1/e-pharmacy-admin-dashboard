@@ -3,17 +3,15 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 // import UnauthorizedPage from '@/pages/UnauthorizedPage';
-import LoginPage from '../pages/LoginPage/LoginPage'
-import PrivateRoute from '../components/PrivateRoute/PrivateRoute'
+import LoginPage from '../pages/auth/LoginPage/LoginPage.tsx'
 import SharedLayout from '../layouts/SharedLayout'
 import DashboardPage from '../pages/DashboardPage/DashboardPage'
 import { useAuth } from '../hooks/useAuth'
 import AllProductsPage from '../pages/AllProductsPage/AllProductsPage'
 import UnauthorizedPage from '../pages/UnauthorizedPage'
 import { ROLES } from '../constants/roles'
-import ProtectedRoute from '../components/PrivateRoute/ProtectedRoute'
 import AdminRoute from '../components/AdminRoute.tsx'
-import PublicRoute from '../components/PrivateRoute/PublicRoute.tsx'
+import PublicRoute from './PublicRoute.tsx'
 const AppRouter = () => {
   // const { isAuthenticated } = useAuth()
 
@@ -25,7 +23,7 @@ const AppRouter = () => {
         element={
           <PublicRoute>
             <LoginPage />
-          </PublicRoute>
+           </PublicRoute> 
         }
       />
 
@@ -34,9 +32,9 @@ const AppRouter = () => {
         path="/"
         element={
           // <ProtectedRoute requiredRoles={[ROLES.ADMIN]}>
-         <AdminRoute> 
+          <AdminRoute>
             <SharedLayout />
-        </AdminRoute> 
+          </AdminRoute>
           //  </ProtectedRoute>
         }
       >

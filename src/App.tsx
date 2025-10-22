@@ -6,58 +6,57 @@ import './App.css'
 
 import AppRouter from './routes/AppRouter'
 import { useEffect } from 'react'
-// import { fetchCurrentUser, refresh } from './store/authSlice/operations'
 
 import { useAppDispatch, useAppSelector } from './store/hooks'
 
 import { selectIsRefreshing } from './store/authSlice/selectors'
 import { refresh } from './store/authSlice/operations'
+import { useAuth } from './hooks/useAuth'
 
 const App = () => {
+  console.log('🚀 App rendered - ONCE') // Должен показаться ОДИН раз
   const dispatch = useAppDispatch()
 
   const isRefreshing = useAppSelector(selectIsRefreshing)
-  // useEffect(() => {
-  //   const initializeAuth = async () => {
-  //     try {
-  //       const accessToken = localStorage.getItem('accessToken')
-  //       const hasRefreshToken = document.cookie.includes('refreshToken')
-
-  //       // ✅ Только если есть refreshToken но нет accessToken
-  //       if (!accessToken && hasRefreshToken && !isRefreshing) {
-  //         console.log('🔄 Attempting to refresh token...')
-  //         // const result = await dispatch(refresh()).unwrap()
-  //         // console.log('✅ Token refreshed successfully')
-  //       } else if (accessToken) {
-  //         console.log('✅ Access token found, app ready')
-  //       // } else {
-  //       //   console.log('🔐 No tokens found, user needs to login')
-  //       }
-  //     } catch (error) {
-  //       console.error('❌ Token refresh failed:', error)
-  //       // ✅ Автоматически очищаем невалидные токены
-  //       localStorage.removeItem('accessToken')
-  //     }
-  //   }
-
-  //   initializeAuth()
-  // }, [dispatch, isRefreshing])
+  const { accessToken, refreshCall, getProfileCall, isLoading } = useAuth()
 
   useEffect(() => {
-    const useAuthInit = async () => {
+    const initializeAuth = async () => {
       try {
-      
-if ( !isRefreshing) {
-        dispatch(refresh())
-}
+        // const hasRefreshToken = document.cookie.includes('refreshToken')
+
+        // ✅ Обновляем токен только если ЕСТЬ refreshToken но НЕТ accessToken
+        if (!accessToken && !isRefreshing) {
+          console.log('🔄 Refreshing token...')
+          await dispatch(refresh())
+        }
+        getProfileCall()
       } catch (error) {
         console.error('❌ Token refresh failed:', error)
-        // ✅ Автоматически очищаем невалидные токены
-        // localStorage.removeItem('accessToken')
       }
     }
-    useAuthInit()
-  }, [dispatch])
+
+    initializeAuth()
+  }, [])
+   // ✅ Пустой массив зависимостей - выполняется один раз при mount
+
+  //   useEffect(() => {
+  //     const useAuthInit = async () => {
+  //       try {
+
+  // if ( !isRefreshing) {
+  //         // dispatch(
+  //           refresh()
+  //         // )
+  // }
+  //       } catch (error) {
+  //         console.error('❌ Token refresh failed:', error)
+  //         // ✅ Автоматически очищаем невалидные токены
+  //         // localStorage.removeItem('accessToken')
+  //       }
+  //     }
+  //     useAuthInit()
+  //   }, [dispatch])
 
   // ✅ Пока идет refresh - показываем loading
   if (isRefreshing) {
