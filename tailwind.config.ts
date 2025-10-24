@@ -19,6 +19,7 @@ export default {
         text: 'var(--text)',
         borderGray: "rgba(29,30,33,0.1)",
         color: 'var(--main-black)',
+        color1: 'var(--color1)',
         hover_btn: 'var(--hover)',
       },
 

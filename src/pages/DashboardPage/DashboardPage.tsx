@@ -8,17 +8,22 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchDashboardData } from '../../store/dashboardSlice/operations'
 import { string } from 'yup'
 import { getProfile } from '../../store/authSlice/operations'
+import { useAuth } from '../../hooks/useAuth'
+import { selectIsRefreshing } from '../../store/authSlice/selectors'
 // import { fetchCurrentUser } from '../../store/authSlice/operations'
 
 const DashboardPage = () => {
   const dispatch = useAppDispatch()
+  const isRefreshing = useAppSelector(selectIsRefreshing) 
+  const {accessToken, isLoading} = useAuth()
   const { statistics, recentCustomers, incomeExpenses, loading } = useAppSelector(selectDashboard)
   // const persistedAuth = localStorage.getItem('persist:auth');
   // console.log(persistedAuth);
   useEffect(() => {
+if(!isRefreshing && !isLoading && accessToken ) {
 
-    dispatch(fetchDashboardData())
-
+  dispatch(fetchDashboardData())}
+    
   }, [dispatch])
 
   if (loading) return <p>Loading...</p>
@@ -28,14 +33,14 @@ const DashboardPage = () => {
         <h1 className="visually-hidden">Dashboard</h1>
 
     
-        <Statistics statistics={statistics} />
+      {statistics?.length > 0 &&  <Statistics statistics={statistics} />}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
           <RecentCustomers recentCustomers={recentCustomers} />
 
           {/* Доходы/Расходы */}
-          <IncomeExpenses incomeExpenses="incomeExpenses" />
+          <IncomeExpenses incomeExpenses={incomeExpenses} />
         </div>
       </div>
     </section>

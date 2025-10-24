@@ -19,44 +19,75 @@ const App = () => {
 
   const isRefreshing = useAppSelector(selectIsRefreshing)
   const { accessToken, refreshCall, getProfileCall, isLoading } = useAuth()
-
+  // 1️⃣ Refresh при монтировании
   useEffect(() => {
-    const initializeAuth = async () => {
+    let isMounted = true
+    const refreshAccessToken = async () => {
       try {
-        // const hasRefreshToken = document.cookie.includes('refreshToken')
-
-        // ✅ Обновляем токен только если ЕСТЬ refreshToken но НЕТ accessToken
-        if (!accessToken && !isRefreshing) {
+        if (!accessToken && !isRefreshing && isMounted) {
           console.log('🔄 Refreshing token...')
-          await dispatch(refresh())
+          // await dispatch(refresh());
+          await refreshCall()
         }
-        getProfileCall()
       } catch (error) {
         console.error('❌ Token refresh failed:', error)
       }
     }
 
-    initializeAuth()
-  }, [])
-   // ✅ Пустой массив зависимостей - выполняется один раз при mount
+    refreshAccessToken()
+    return () => {
+      isMounted = false
+    }
+  }, []) // только при монтировании
 
-  //   useEffect(() => {
-  //     const useAuthInit = async () => {
-  //       try {
+  // 2️⃣ Загружаем профиль, когда токен появился
+  useEffect(() => {
+    if (accessToken) {
+      getProfileCall(accessToken)
+    }
+  }, [accessToken])
+  // useEffect(() => {
+  //   const initializeAuth = async () => {
+  //     try {
+  //       // ⚠️ Проверяем, есть ли refreshToken (в куках) и нет ли accessToken
+  //       // const hasRefreshToken = document.cookie.includes('refreshToken');
 
-  // if ( !isRefreshing) {
-  //         // dispatch(
-  //           refresh()
-  //         // )
-  // }
-  //       } catch (error) {
-  //         console.error('❌ Token refresh failed:', error)
-  //         // ✅ Автоматически очищаем невалидные токены
-  //         // localStorage.removeItem('accessToken')
+  //     if (!accessToken && !isRefreshing) {
+  //         console.log('🔄 Refreshing token...');
+  //           await dispatch(refresh())
+  //         // await refreshCall();
   //       }
+
+  //       // ⚠️ Вызываем getProfile только если токен уже есть
+  //       if (accessToken) {
+  //         await getProfileCall();
+  //       }
+  //     } catch (error) {
+  //       console.error('❌ Token refresh failed:', error);
   //     }
-  //     useAuthInit()
-  //   }, [dispatch])
+  //   };
+
+  //   initializeAuth();
+  // }, []);
+  // useEffect(() => {
+  //   const initializeAuth = async () => {
+  //     try {
+  //       // const hasRefreshToken = document.cookie.includes('refreshToken')
+
+  //       // ✅ Обновляем токен только если ЕСТЬ refreshToken но НЕТ accessToken
+  //       if (!accessToken && !isRefreshing ) {
+  //         console.log('🔄 Refreshing token...')
+  //         // await dispatch(refresh())
+  //         await refreshCall()
+  //       }
+  //       getProfileCall()
+  //     } catch (error) {
+  //       console.error('❌ Token refresh failed:', error)
+  //     }
+  //   }
+
+  //   initializeAuth()
+  // }, [])
 
   // ✅ Пока идет refresh - показываем loading
   if (isRefreshing) {

@@ -6,20 +6,21 @@ import {
   selectIsLoading,
   selectError,
   selectTokens,
+  selectAccessToken,
 } from '../store/authSlice/selectors'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 import { useCallback, useMemo } from 'react'
 import { logInUser, logOutUser, getProfile, refresh } from '../store/authSlice/operations'
 import { ROLES, type Role } from '../constants/roles'
-import { tokenStorage } from '../utils/TokenStorage'
+// import { tokenStorage } from '../utils/TokenStorage'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const isLoading = useAppSelector(selectIsLoading)
-  const { accessToken, expiresIn } = useAppSelector(selectTokens)
+  const accessToken = useAppSelector(selectAccessToken)
   const error = useAppSelector(selectError)
 
   const login = useCallback(
@@ -34,8 +35,8 @@ export const useAuth = () => {
     return dispatch(logOutUser())
   }, [dispatch])
 
-  const getProfileCall = useCallback(() => {
-    return dispatch(getProfile())
+  const getProfileCall = useCallback((token) => {
+    return dispatch(getProfile(token))
   }, [dispatch])
 
   const refreshCall = useCallback(() => {
@@ -44,20 +45,20 @@ export const useAuth = () => {
 
   return useMemo(
     () => {
-      console.log('🔄 useAuth computed:', {
-        accessToken: !!accessToken,
-        user: !!user,
-        isLoading,
-      })
-      console.log('🔑 Token from storage:', tokenStorage.getToken())
-      console.log(tokenStorage.getToken())
+      // console.log('🔄 useAuth computed:', {
+      //   accessToken: !!accessToken,
+      //   user: !!user,
+      //   isLoading,
+      // })
+      // console.log('🔑 Token from storage:', tokenStorage.getToken())
+      // console.log(tokenStorage.getToken())
       return {
         // State
         user,
         isAuthenticated,
         isLoading,
         accessToken,
-        expiresIn,
+        // expiresIn,
         error,
         // Actions
         login,
@@ -98,7 +99,7 @@ export const useAuth = () => {
         isAuthenticated,
         isLoading,
         accessToken,
-        expiresIn,
+        // expiresIn,
         error,
         login,
         logout,

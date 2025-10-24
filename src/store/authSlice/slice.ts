@@ -21,12 +21,32 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setAccessToken: (state, action) => {
+      console.log(action.payload)
+      state.tokens = {
+        accessToken: action.payload.tokens.accessToken,
+        expiresIn: action.payload.tokens.expiresIn,
+      }
+      state.isAuthenticated = true
+    },
+    clearTokens: (state) => {
+      state.tokens = {
+        accessToken: '',
+        expiresIn: '',
+      }
+      state.isAuthenticated = false
+      state.user = null
+    },
     clearError: (state) => {
       state.error = null
     },
     logOut: (state) => {
       state.user = null
       state.isAuthenticated = false
+      state.tokens = {
+        accessToken: '',
+        expiresIn: '',
+      }
     },
   },
   extraReducers: (builder) => {
@@ -37,7 +57,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(logInUser.fulfilled, (state, action) => {
-        console.log(action.payload)
+        
         // state.user = {
         // name: action.payload.name,
         // email: action.payload.email,
@@ -63,12 +83,21 @@ const authSlice = createSlice({
       })
       .addCase(logOutUser.fulfilled, (state) => {
         state.user = null
+        state.tokens = {
+          accessToken: '',
+          expiresIn: '',
+        }
         state.isAuthenticated = false
         state.isLoading = false
+
         state.error = null
       })
       .addCase(logOutUser.rejected, (state, action) => {
         state.user = null
+        state.tokens = {
+          accessToken: '',
+          expiresIn: '',
+        }
         state.isAuthenticated = false
         state.isLoading = false
         state.error = action.payload || { message: 'Logout failed', code: 'LOGOUT_FAILED' }
@@ -81,7 +110,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(refresh.fulfilled, (state, action) => {
-        console.log(action.payload)
+        console.log('refresh.fulfilled', action)
         // state.user = {
         // name: action.payload.name,
         // email: action.payload.email,
@@ -89,7 +118,7 @@ const authSlice = createSlice({
         //   roles: action.payload,
         // }
         state.tokens = {
-           accessToken: action.payload.tokens.accessToken,
+          accessToken: action.payload.tokens.accessToken,
           expiresIn: action.payload.tokens.expiresIn,
         }
         state.isRefreshing = false
@@ -97,8 +126,13 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(refresh.rejected, (state, action) => {
+        console.log('refresh.rejected', action)
         state.isRefreshing = false
         state.user = null
+        state.tokens = {
+          accessToken: '',
+          expiresIn: '',
+        }
         state.isAuthenticated = false
         state.error = action.payload || { message: 'Refresh failed', code: 'REFRESH_FAILED' }
       })
@@ -131,7 +165,7 @@ const authSlice = createSlice({
   },
 })
 
-export const { clearError, logOut } = authSlice.actions
+export const {setAccessToken, clearTokens, clearError,  logOut } = authSlice.actions
 export const authReducer = authSlice.reducer
 
 // const authSlice = createSlice({

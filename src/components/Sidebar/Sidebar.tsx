@@ -2,7 +2,7 @@
 import css from './Sidebar.module.css'
 import SidebarMenu from '../SidebarMenu/SidebarMenu'
 import iconSprite from '../../assets/icons/sprite.svg'
-import LogOutBtn from '../LogOutBtn/LogOutBtn'
+import LogOutBtn from '../Common/LogOutBtn'
 import { useEffect } from 'react'
 
 interface SidebarProps {
@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <SidebarMenu onClose={onClose} />
         <div className="mt-auto px-5 w-[38px] h-[38px] md:w-11 md:h-11 lg:hidden">
-        <LogOutBtn />
+          <LogOutBtn />
         </div>
       </aside>
     </>

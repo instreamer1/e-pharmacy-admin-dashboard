@@ -6,13 +6,14 @@ export interface User {
   email?: string
   roles: Role[]
 }
+export interface Token {
+  accessToken?: string
+  expiresIn?: string
+}
 
 export interface AuthState {
   user: User | null
-  tokens: {
-    accessToken: string
-    expiresIn: string
-  }
+  tokens: Token
   isAuthenticated: boolean
   isRefreshing: boolean
   isLoading: boolean
@@ -25,7 +26,8 @@ export interface LoginCredentials {
 }
 
 export interface UserResponse {
- tokens: {accessToken: string
-  expiresIn: string}
-  roles: Role
+  tokens: {
+    accessToken: string
+    expiresIn: string
+  }
 }

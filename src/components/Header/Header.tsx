@@ -6,7 +6,7 @@ import css from './Header.module.css'
 import iconSprite from '../../assets/icons/sprite.svg'
 import { useLocation } from 'react-router-dom'
 
-import LogOutBtn from '../LogOutBtn/LogOutBtn'
+import LogOutBtn from '../Common/LogOutBtn'
 import { ROUTE_TITLES } from '../../constants/routeTitles'
 import type { MouseEventHandler } from 'react'
 

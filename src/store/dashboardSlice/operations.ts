@@ -10,8 +10,9 @@ export const fetchDashboardData = createAsyncThunk<
   { rejectValue: NormalizedError; state: RootState }
 >('dashboard/fetchData', async (_, thunkAPI) => {
   try {
-      // const token = localStorage.getItem('accessToken')
-  const token = tokenStorage.getToken()
+    // const token = localStorage.getItem('accessToken')
+    const token = thunkAPI.getState().auth.tokens.accessToken
+    // const token = tokenStorage.getToken()
     if (!token) {
       return thunkAPI.rejectWithValue({
         message: 'No access token',
@@ -21,10 +22,9 @@ export const fetchDashboardData = createAsyncThunk<
     const { data } = await dashboardService.fetchData(token)
     return data
   } catch (error: unknown) {
-    console.log(error.response.data);
+    console.log(error.response.data)
     const normalizedError = normalizeError(error.response.data)
-    console.log(normalizeError);
+    console.log(normalizeError)
     return thunkAPI.rejectWithValue(normalizedError)
-   
   }
 })

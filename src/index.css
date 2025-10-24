@@ -37,6 +37,7 @@ body {
   --accent-2: #e85050;
   --text: #dcdddf;
   --hover: #3f945f;
+  --color1: rgba(29, 30, 33, 0.4);
   font-family: var(--font-family);
   background-color: var(--background-2);
   font-weight: 400;

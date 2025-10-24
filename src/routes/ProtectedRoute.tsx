@@ -32,7 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     // - Не идет уже загрузка
     if (accessToken && !user && !isLoading) {
       console.log('📥 Loading user profile...')
-      getProfileCall()
+      getProfileCall(accessToken)
     }
   }, [accessToken, user, isLoading, getProfileCall])
 
