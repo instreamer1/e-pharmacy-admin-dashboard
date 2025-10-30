@@ -22,7 +22,7 @@ const SidebarMenu = ({ onClose }: SidebarMenuProps) => {
                 className={({ isActive }) =>
                   ` transition-colors duration-200 w-[38px] h-[38px] md:w-11 md:h-11 flex items-center justify-center
                    ${isActive ? 'text-accent' : 'text-text'}
-                    hover:text-hover_btn focus:text-hover_btn`
+                    `
                 }
               >
                

@@ -14,18 +14,20 @@ const SharedLayout = () => {
   const closeSidebar = useCallback(() => {
     setIsSidebarOpen(false)
   }, [])
+
+    // class=" min-w-[320px] max-w-full  sm:max-w-[375px] md:max-w-[768px] lg:max-w-[1440px] md:min-h-[1024px] lg:min-h-[800px] "
   return (
     <>
-    <div className="flex flex-col min-h-screen">
+    {/* <div className="flex flex-col min-h-screen  md:max-w-[768px] lg:max-w-[1440px] md:min-h-[1024px] lg:min-h-[800px]"> */}
       <Header onMenuClick={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-      <div className="flex flex-1 h- h-full bg-background2">
+      <div className="lg:flex relative  min-w-80 mx-auto max-w-[375px] md:max-w-[768px] lg:max-w-[1440px]">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
-        <main className="flex-1  ">
+        <main className="lg:flex-1 ">
           <Outlet />
         </main>
       </div>
-      </div>
+      {/* </div> */}
     </>
   )
 }

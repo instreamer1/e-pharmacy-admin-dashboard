@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isSidebarOpen }) => {
   const { isAuthenticated, user } = useAuth()
 
   return (
-    <header className="flex items-center bg-background2 border-b border-borderGray h-20 px-5 md:px-8 py-[17px] lg:px-5">
+    <header className="min-w-80 max-w-[375px] mx-auto md:max-w-[768px] lg:max-w-[1440px] flex items-center bg-background2 border-b border-borderGray h-20 px-5 md:px-8 py-[17px] lg:px-5">
       <button
         className=" mr-2 md:mr-4 lg:hidden"
         onClick={onMenuClick}

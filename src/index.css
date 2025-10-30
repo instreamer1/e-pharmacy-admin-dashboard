@@ -50,7 +50,14 @@ body {
   /* min-height: 800px;  */
   margin: 0 auto;
   /* background: var( --accent); */
+  /* width: 100%; */
+  overflow-x: hidden;
+}
+#root {
+  /* min-width: 320px; */
+  margin: 0 auto;
   width: 100%;
+  /* max-width: 375px;  */
   overflow-x: hidden;
 }
 

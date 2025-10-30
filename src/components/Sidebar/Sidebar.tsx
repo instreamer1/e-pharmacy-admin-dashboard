@@ -40,7 +40,9 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           flex flex-col 
         `}
         aria-label="Main navigation"
-        aria-hidden={!isOpen && true}
+        // aria-hidden={!isOpen && true}
+        //  aria-hidden={!isOpen ? '' : undefined}
+        // inert={!isOpen}
       >
         <div className=" ml-8 mb-10 md:mb-12 md:ml-[38px] lg:hidden">
           <button
@@ -59,7 +61,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <SidebarMenu onClose={onClose} />
         <div className="mt-auto px-5 w-[38px] h-[38px] md:w-11 md:h-11 lg:hidden">
-          <LogOutBtn />
+        { isOpen && <LogOutBtn />}
         </div>
       </aside>
     </>
